@@ -1,7 +1,7 @@
 // GLOBAL DOM / VARIABLES
 let game = document.querySelector("#game");
-let player;
 let zverev;
+let r = 25;//!!this variable is deciding player circle's radius & movement speed!!
 // this creates a 2 dimensional canvas =>
 let ctx = game.getContext("2d");
 game.setAttribute("height", getComputedStyle(game)["height"]);
@@ -19,59 +19,62 @@ class Player{
         this.color = color;
         this.alive = true;
     }
-    //adding player's function: render 
+    //adding player's function: render & moving(location change) 
 
-    render(x,y,){
-
-
+    render(){
+        ctx.beginPath();
+        ctx.arc(this.x,this.y,this.radius,0,2*Math.PI,false);
+        ctx.fillstyle = this.color;
+        ctx.fill();
     }
 
 }
 
+/*=================== Game Player Constructions ======================*/
+//construct game players here.
+const you = new Player(game.width/2,game.height-r,r,'yellow')
 
 
-//==============Ketboard====================//
+/*============== Keyboard Control ====================*/
 //KEYBOARD INTERACTION LOGIC
 function movementHandler(e) {
     console.log("the key that was pressed was:" + e.key)
+    console.log(you.y)
 
     switch (e.key) {
-
         case "ArrowUp":
-            player.y > 0 ? player.y -= 20 : null;
+            you.y-you.radius > 0 ? you.y -= r: null;
             break
         case "ArrowDown":
-            (player.y + player.height) < game.height ? player.y += 20 : null;
+            (you.y + you.radius) < game.height ? you.y += r : null;
             break
-
         case "ArrowLeft":
-            player.x > 0 ? player.x -= 20 : null;
+            you.x-you.radius > 0 ? you.x -= r : null;
             break
-
         case "ArrowRight":
-            (player.x + player.width) < game.width ? player.x += 20 : null;
+            (you.x + you.radius) < game.width ? you.x += r: null;
             break
-
     }
 }
 
 
-//================= functions ========================// 
+/* ================= functions ========================*/ 
 
-//gameLoop
-// function gameLoop() {
-//     ctx.clearRect(0, 0, game.width, game.height);
-//     movement.textContent = `X: ${player.x}\n Y:${player.y}`;
+function gameLoop() {
+    ctx.clearRect(0, 0, game.width, game.height);
+    you.render(); 
+}
 
-//     if (circle.alive) {
-//         circle.render();
-//         // circleEnd();
-//         let hit = detectHit(player, circle);
-//     }
-//     player.render();
-//     circle.render();
-    
-// }
+/* ================= Running Game ========================*/ 
+const runGame = setInterval(gameLoop,60);
+
+
+
+
+
+
+
+
 
 //Detect hit between player and obstacles
 // function detectHit(p1, p2) {
@@ -115,5 +118,5 @@ function movementHandler(e) {
 
 
 
-// //controler
-// document.addEventListener("keydown", movementHandler)
+//controler
+document.addEventListener("keydown", movementHandler)
