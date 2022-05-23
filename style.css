@@ -12,11 +12,7 @@ html,body {
     background-repeat: space;
   }
   
-  h1, h2 {
-    font-family: 'Press Start 2P', monospace;
-    /* font-family: monospace; */
-    color: goldenrod;
-  }
+ 
   
   canvas {
     /* background-image: url('../img/stone.png'); */
@@ -26,49 +22,5 @@ html,body {
     height: 100;
   }
   
-  #container {
-  max-width: 50em;
-  /* height: 70vh; */
-  background-color: rgb(87, 59, 201);
-  margin: 0 auto;
-  padding: 1em;
-  display: grid;
-  grid-gap: 1em;
-  grid-template-rows: .25fr .5fr .25fr;
-  grid-template-columns: .25fr .5fr .25fr;
-  grid-template-areas: "top-left top-left top-right"
-                        "game game game"
-                        "btm-left btm-right btm-right";
-  }
-  
-  #top-left, #top-right, #btm-left, #btm-right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #222;
-  }
-  
-  #top-left {
-    grid-area: top-left;
-  }
-  
-  #top-right {
-    grid-area: top-right;
-    /* background-color: #222; */
-    /* background-image: url('../img/funky-lines.png'); */
-  }
-  
-  main {
-    grid-area: game;
-  }
-  
-  
-  #btm-left {
-    grid-area: btm-left;
-    /* background-color: #222; */
-  }
-  
-  #btm-right {
-    grid-area: btm-right;
-    /* background-color: #222; */
-  }
+
+ 
