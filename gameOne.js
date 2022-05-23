@@ -48,23 +48,33 @@ class Obstacle{
         ctx.fill();
     }
     //moving automatically
+    //Ball bounce if it hits a wall
+    //Ball goes back to the top and restart dropping if it hits bottom
     launch(){
         this.render();
         this.x += this.velocity.x;
         this.y += this.velocity.y;
+        if(this.x + this.radius > game.width || this.x-this.radius<0){
+          this.velocity.x = -1*this.velocity.x  
+        }else if(this.y - this.radius > game.height){
+            this.y = 0;
+            this.velocity.x = Math.floor(Math.random()*9-4)
+            this.y += this.velocity.y;
+        }
 
     }
 
 }
-
+/*======== Build Array =======*/
+let allBalls = [];
 /*=================== Game Player Constructions ======================*/
 //construct game players here.
 const you = new Player(game.width/2,game.height-r,r,'grey')
 // ball always comes down from the top and x rocation alters randomly everytime.
 //velocity is an object which has x and y value so I can control the speed and angle of the ball movement.
-let rv = Math.floor(Math.random()*9-5)
-let rrv = Math.floor(Math.random()*13+5)
-const ball = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,30,'#FFFF00',{x:rv,y:rrv})
+let rv = Math.floor(Math.random()*9-5);
+// let rrv = Math.floor(Math.random()*13+15);
+const ball = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,30,'#FFFF00',{x:rv,y:25})
 
 
 /*============== Keyboard Control ====================*/
@@ -91,23 +101,49 @@ function movementHandler(e) {
 
 
 /* ================= functions ========================*/ 
+function constructingBalls(){
+    let rv = Math.floor(Math.random()*9-5);
+    let rrv = Math.floor(Math.random()*13+5);
+    while(allBalls.length<10){
+    const newBall = new Obstacle(Math.floor(Math.random()*(game.width-30)),30,30,'#FFFF00',{x:1,y:1});
+    allBalls.push(newBall);
+    i++;
+}}
 
 function gameLoop() {
     ctx.clearRect(0, 0, game.width, game.height);
     you.render(); 
     ball.launch();
-   
-
+    
+ 
 }
 
+
+
+// function constructingBalls(){
+//     setInterval(() => {
+//     let rv = Math.floor(Math.random()*9-5);
+//     let rrv = Math.floor(Math.random()*13+5);
+//     const newBall = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,30,'#FFFF00',{x:rv,y:rrv});
+//     allBalls.push(newBall);
+//     console.log(allBalls)
+
+// },500)
+// ;
+// }
+
 /* ================= Running Game ========================*/ 
-const runGame = setInterval(gameLoop,60);
+const runGame = setInterval(gameLoop,50);
+// constructingBalls()
 
 
 
 
 
-
+// for(i=0;i<allBalls.length;i++){
+//     console.log(allBalls)
+//     allBalls[i].launch()
+// } 
 
 
 
