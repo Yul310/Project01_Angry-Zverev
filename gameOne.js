@@ -8,7 +8,26 @@ game.setAttribute("height", getComputedStyle(game)["height"]);
 game.setAttribute("width", getComputedStyle(game)["width"]);
 
 
-//=================== class Collections======================//
+/*=================== class Collections======================*/
+
+//Build a player class
+class Player{
+    constructor(x,y,radius,color){
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.alive = true;
+    }
+    //adding player's function: render 
+
+    render(x,y,){
+
+
+    }
+
+}
+
 
 
 //==============Ketboard====================//

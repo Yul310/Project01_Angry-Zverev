@@ -6,7 +6,7 @@ html,body {
   body {
     padding-top: 1em;
     text-align: center;
-    background-color: black;
+    background-color: rgb(255, 255, 255);
     /* background-image: url('../img/dungeonhell.png'); */
     background-size: cover;
     background-repeat: space;
@@ -17,9 +17,10 @@ html,body {
   canvas {
     /* background-image: url('../img/stone.png'); */
     /* background-repeat: repeat; */
-    background-color: #222;
-    width: 100%;
-    height: 100;
+    border:3px solid black;
+    background-color: rgb(255, 255, 255);
+    width: 500PX;
+    height: 800PX;
   }
   
 
