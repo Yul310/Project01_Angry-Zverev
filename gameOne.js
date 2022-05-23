@@ -24,15 +24,47 @@ class Player{
     render(){
         ctx.beginPath();
         ctx.arc(this.x,this.y,this.radius,0,2*Math.PI,false);
-        ctx.fillstyle = this.color;
+        ctx.fillStyle = this.color;
         ctx.fill();
+    }
+}
+
+//Build a obstacle class
+class Obstacle{
+    constructor(x,y,radius,color,velocity){
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.velocity = velocity;
+        this.alive = true;
+    }
+    //adding obstacle's function: render 
+
+    render(){
+        ctx.beginPath();
+        ctx.arc(this.x,this.y,this.radius,0,2*Math.PI,false);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+    //moving automatically
+    launch(){
+        this.render();
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+
     }
 
 }
 
 /*=================== Game Player Constructions ======================*/
 //construct game players here.
-const you = new Player(game.width/2,game.height-r,r,'yellow')
+const you = new Player(game.width/2,game.height-r,r,'grey')
+// ball always comes down from the top and x rocation alters randomly everytime.
+//velocity is an object which has x and y value so I can control the speed and angle of the ball movement.
+let rv = Math.floor(Math.random()*9-5)
+let rrv = Math.floor(Math.random()*13+5)
+const ball = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,30,'#FFFF00',{x:rv,y:rrv})
 
 
 /*============== Keyboard Control ====================*/
@@ -63,10 +95,14 @@ function movementHandler(e) {
 function gameLoop() {
     ctx.clearRect(0, 0, game.width, game.height);
     you.render(); 
+    ball.launch();
+   
+
 }
 
 /* ================= Running Game ========================*/ 
 const runGame = setInterval(gameLoop,60);
+
 
 
 
