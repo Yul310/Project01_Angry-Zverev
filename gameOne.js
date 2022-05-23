@@ -7,6 +7,8 @@ let ctx = game.getContext("2d");
 game.setAttribute("height", getComputedStyle(game)["height"]);
 game.setAttribute("width", getComputedStyle(game)["width"]);
 
+//controler
+document.addEventListener("keydown", movementHandler)
 
 /*=================== class Collections======================*/
 
@@ -64,6 +66,58 @@ class Obstacle{
 
     }
 
+    launchTwo(){
+        this.render();
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+        if(this.x + this.radius > game.width || this.x-this.radius<0){
+          this.velocity.x = -1*this.velocity.x  
+        }else if(this.y - this.radius > game.height){
+            this.y = -40;
+            this.velocity.x = Math.floor(Math.random()*10+10)
+            this.y += this.velocity.y;
+        }
+
+    }
+
+}
+
+class topSpin{
+    constructor(x,y,radius,color){
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        
+        this.alive = true;
+    }
+    //adding obstacle's function: render 
+
+    render(){
+        ctx.beginPath();
+        ctx.arc(this.x,this.y,this.radius,0,2*Math.PI,false);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+    //moving automatically
+    //Ball bounce if it hits a wall
+    //Ball goes back to the top and restart dropping if it hits bottom
+    launch(){
+        this.render();
+        
+        this.y += 25 
+        if(this.y - this.radius > game.height){
+           setTimeout(()=>{ 
+            this.y = -60;
+            this.x = Math.floor(Math.random()*(game.width-30))
+            this.y += 30;
+        },300)
+        }
+       
+    }
+
+  
+
 }
 /*======== Build Array =======*/
 let allBalls = [];
@@ -73,8 +127,11 @@ const you = new Player(game.width/2,game.height-r,r,'grey')
 // ball always comes down from the top and x rocation alters randomly everytime.
 //velocity is an object which has x and y value so I can control the speed and angle of the ball movement.
 let rv = Math.floor(Math.random()*9-5);
+let rrv = Math.floor(Math.random()*9-5);
 // let rrv = Math.floor(Math.random()*13+15);
-const ball = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,30,'#FFFF00',{x:rv,y:25})
+const ball = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,20,'#FFFF00',{x:rv,y:25})
+const ballTwo = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,20,'#FFFF00',{x:rrv,y:25})
+const curve = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,20,'#dfff4f')
 
 
 /*============== Keyboard Control ====================*/
@@ -85,16 +142,16 @@ function movementHandler(e) {
 
     switch (e.key) {
         case "ArrowUp":
-            you.y-you.radius > 0 ? you.y -= r: null;
+            you.y-2*you.radius > 0 ? you.y -= 2*r: null;
             break
         case "ArrowDown":
-            (you.y + you.radius) < game.height ? you.y += r : null;
+            (you.y + 2*you.radius) < game.height ? you.y += 2*r : null;
             break
         case "ArrowLeft":
-            you.x-you.radius > 0 ? you.x -= r : null;
+            you.x-you.radius > 0 ? you.x -= 2*r : null;
             break
         case "ArrowRight":
-            (you.x + you.radius) < game.width ? you.x += r: null;
+            (you.x + you.radius) < game.width ? you.x += 2*r: null;
             break
     }
 }
@@ -102,20 +159,28 @@ function movementHandler(e) {
 
 /* ================= functions ========================*/ 
 function constructingBalls(){
-    let rv = Math.floor(Math.random()*9-5);
+    let rv = Math.floor(Math.random()*9-18);
     let rrv = Math.floor(Math.random()*13+5);
-    while(allBalls.length<10){
-    const newBall = new Obstacle(Math.floor(Math.random()*(game.width-30)),30,30,'#FFFF00',{x:1,y:1});
+    while(allBalls.length<20){
+    const newBall = new Obstacle(Math.floor(Math.random()*(game.width-30)),30,30,'#FFFF00',{x:rv,y:25});
     allBalls.push(newBall);
-    i++;
+    allBalls.length++;
+    
 }}
 
 function gameLoop() {
     ctx.clearRect(0, 0, game.width, game.height);
     you.render(); 
+    curve.launch();
     ball.launch();
+    ballTwo.launchTwo();
+    // for(i=0;i<allBalls.length;i++){
+    //     console.log(allBalls)
+    //     allBalls[i].launch()
+        
+    // } 
     
- 
+    
 }
 
 
@@ -134,7 +199,7 @@ function gameLoop() {
 
 /* ================= Running Game ========================*/ 
 const runGame = setInterval(gameLoop,50);
-// constructingBalls()
+constructingBalls()
 
 
 
@@ -190,5 +255,3 @@ const runGame = setInterval(gameLoop,50);
 
 
 
-//controler
-document.addEventListener("keydown", movementHandler)
