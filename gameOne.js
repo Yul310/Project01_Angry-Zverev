@@ -1,0 +1,164 @@
+// GLOBAL DOM / VARIABLES
+let game = document.querySelector("#game");
+
+let player;
+let circle;
+let score = document.querySelector('#score')
+let movement = document.querySelector('#movement')
+let xRandom = Math.floor(Math.random()*game.width)
+let xFactorOne = 5
+// this creates a 2 dimensional canvas =>
+let ctx = game.getContext("2d");
+game.setAttribute("height", getComputedStyle(game)["height"]);
+game.setAttribute("width", getComputedStyle(game)["width"]);
+
+
+//=================== class Collections======================//
+//player class
+class Crawler {
+    constructor(x, y, color, width, height) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.height = height;
+        this.width = width;
+        this.alive = true;
+    }
+
+    render() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height)
+    }
+    
+
+}
+// obstacle class
+class Ball {
+    constructor(x, y,color, width, height) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.height = height;
+        this.width = width;
+        this.alive = true;
+    }
+    render() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height)
+        
+        // let mRandom = Math.floor(Math.random()*21)-10
+        this.y += 10;
+    }
+
+}
+class BallTwo {
+    constructor(x, y,radius,color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.radius = radius;
+        this.alive = true;
+    }
+    draw(){
+        ctx.beginPath()
+        ctx.arc(this.x,this.y,this.radius,0,Math.PI*2)
+        ctx.fill()
+    }
+
+}
+
+//==============Ketboard====================//
+//KEYBOARD INTERACTION LOGIC
+function movementHandler(e) {
+    console.log("the key that was pressed was:" + e.key)
+
+    switch (e.key) {
+
+        case "ArrowUp":
+            player.y > 0 ? player.y -= 20 : null;
+            break
+        case "ArrowDown":
+            (player.y + player.height) < game.height ? player.y += 20 : null;
+            break
+
+        case "ArrowLeft":
+            player.x > 0 ? player.x -= 20 : null;
+            break
+
+        case "ArrowRight":
+            (player.x + player.width) < game.width ? player.x += 20 : null;
+            break
+
+    }
+}
+
+
+//================= functions ========================// 
+
+//gameLoop
+function gameLoop() {
+    ctx.clearRect(0, 0, game.width, game.height);
+    movement.textContent = `X: ${player.x}\n Y:${player.y}`;
+
+    if (circle.alive) {
+        circle.render();
+        // circleEnd();
+        let hit = detectHit(player, circle);
+    }
+    player.render();
+    circle.render();
+    
+}
+
+//Detect hit between player and obstacles
+function detectHit(p1, p2) {
+
+    let hitTest =
+        p1.y + p1.height > p2.y &&
+        p1.y < p2.y + p2.height  &&
+        p1.x + p1.width > p2.x &&
+        p1.x < p2.x + p2.width;
+
+    let circleEnd =
+        circle.y - (circle.height) > game.height;
+
+    if (hitTest || circleEnd) {
+        //     let gameScore =Number(score.textContent);
+        // let newScore = gameScore + 100;
+        // score.textContent = newScore;
+
+        return addNewCirlce();
+    } else {
+        return false;
+    }
+
+}
+
+//Bounce after hitting sidewalls
+
+
+//Adding new circle 
+function addNewCirlce() {
+    circle.alive = false;
+    setTimeout(function () {
+        circle = new Ball(xRandom,0, "yellow", 10, 10)
+    }, 500)
+    return true;
+}
+
+
+//==============EventListner==================//
+
+//DOM Content Loaded EventListener
+window.addEventListener("DOMContentLoaded", function (e) {
+    player = new Crawler((game.width - 20) / 2, game.height - 20, "white", 20, 20);
+    circle = new Ball(xRandom,0, "yellow", 10, 10)
+    const cTwo = new BallTwo(300,100,30,'blue')
+   
+    const runGame = setInterval(gameLoop, 100);
+})
+
+
+
+//controler
+document.addEventListener("keydown", movementHandler)
