@@ -1,4 +1,35 @@
-// GLOBAL DOM / VARIABLES
+/*========= DOM ========*/
+const container = document.getElementById('container');
+    //create a 'div'tag
+    const square = document.createElement('div');
+    container.append(square);
+    //square.style.attribute
+    square.style.border = 'solid 2px black'
+    square.style.borderRadius = '10px'
+    square.style.backgroundColor = 'white'
+    square.style.width = "250px"
+    square.style.height = "150px"
+    square.style.position = "absolute"
+    square.style.top = '50%'
+    square.style.left= '50%'
+    square.style.transform = 'translate(-50%,-50%)'
+    square.style.textAlign = 'center'
+   
+    //create a 'text tag'
+    const textTag = document.createElement('h3')
+    textTag.innerText = "Oh...No...\n GameOver!"
+    square.append(textTag)
+    //textTag.style.attribute
+    textTag.style.padding= '5px 5px 5px 5px';
+   //create a 'restart button'
+   const restart = document.createElement('button')
+   restart.innerText = "Restart\n(space key)"
+   square.append(restart)
+   square.style.display = "none" 
+
+
+
+/*========= VARIABLES ========*/
 let game = document.querySelector("#game");
 let zverev;
 let r = 25;//!!this variable is deciding player circle's radius & movement speed!!
@@ -9,7 +40,11 @@ game.setAttribute("width", getComputedStyle(game)["width"]);
 
 //controler
 document.addEventListener("keydown", movementHandler)
+//    restart.addEventListener("click",location.reload())
+// restart.addEventListener("keypress", space)
 
+
+  
 /*=================== class Collections======================*/
 
 //Build a player class
@@ -151,8 +186,22 @@ function movementHandler(e) {
         case "ArrowRight":
             (you.x + you.radius) < game.width ? you.x += 2*r: null;
             break
-    }
+        case ' ' :
+                restarting();
+                console.log('working')
+                break
+                 
+    }    
 }
+// function space(e) {
+//     console.log("the key that was pressed was:" + e.code)
+//     switch (e.code) {
+//         case 'Space' :
+//             restarting();
+//             console.log('working')
+//             break
+//     }    
+// }
 
 
 /* ================= functions ========================*/ 
@@ -178,7 +227,8 @@ function gameLoop() {
     detectHit(you,ball);
     detectHit(you,ballTwo);
     }
-    you.render(); 
+    you.render();
+ 
    
     
  
@@ -202,7 +252,7 @@ function detectHit(p1,p2) {
         p1.alive = false;
         p2.alive = false;
       
-       document.removeEventListener("keydown", movementHandler);
+    //    document.removeEventListener("keydown", movementHandler);
        gameOver() ;   
     } 
 
@@ -210,32 +260,22 @@ function detectHit(p1,p2) {
 
 //Game over Text
 function gameOver(){
-    //create a 'div'tag
-   const square = document.createElement('div');
-   const container = document.getElementById('container');
-   container.append(square);
-   //square.style.attribute
    
-   square.style.border = 'solid 2px black'
-   square.style.borderRadius = '10px'
-   square.style.width = "250px"
-   square.style.height = "150px"
-   square.style.position = "absolute"
-   square.style.top = '50%'
-   square.style.left= '50%'
-   square.style.transform = 'translate(-50%,-50%)'
-   square.style.textAlign = 'center'
-  
-   //create a 'text tag'
-   const textTag = document.createElement('h3')
-   textTag.innerText = "Oh...No...\n GameOver!"
-   square.append(textTag)
-   //textTag.style.attribute
-   textTag.style.padding= '5px 5px 5px 5px';
-  
-  
+    if(you.alive){
+        square.style.display = "none"
+    }else{
+        square.style.display = "block"
+    }
+   
 }
+function restarting(){
+ location.reload()
 
+}
+//Run Game
+function runGame() {  
+    setInterval(gameLoop,45);
+}
 
 
 // function constructingBalls(){
@@ -251,7 +291,8 @@ function gameOver(){
 // }
 
 /* ================= Running Game ========================*/ 
-const runGame = setInterval(gameLoop,45);
+
+    runGame();
 
 
 // constructingBalls()
