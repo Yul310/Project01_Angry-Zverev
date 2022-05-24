@@ -141,15 +141,13 @@ class topSpin{
         this.y += 25 
         if(this.y - this.radius > game.height){
            setTimeout(()=>{ 
-            //adding a little delay by setting restaring point to the slightly higher position.
+            //adding a little delay 
             this.y = -60;
             this.x = Math.floor(Math.random()*(game.width-30))
             this.y += 30;
-        },300)
+        },100)
         } 
     }
-
-  
 
 }
 /*======== Build Array =======*/
@@ -226,6 +224,8 @@ function gameLoop() {
     detectHit(you,curve);
     detectHit(you,ball);
     detectHit(you,ballTwo);
+
+    tShot(you,curve)
     }
     you.render();
  
@@ -255,9 +255,16 @@ function detectHit(p1,p2) {
     //    document.removeEventListener("keydown", movementHandler);
        gameOver() ;   
     } 
-
 }
-
+//curve ball
+function tShot(p1,p2){
+    let v = 10;
+    if(circleD(p1,p2)<400&& p1.x > p2.x ){
+        p2.x += v;
+    }else if(circleD(p1,p2)<400 && p2.x > p1.x){
+        p2.x -= v
+    }
+}
 //Game over Text
 function gameOver(){
    
