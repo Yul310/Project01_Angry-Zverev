@@ -81,14 +81,13 @@ class Obstacle{
     }
 
 }
-
+//Build another type of obstacle class
 class topSpin{
     constructor(x,y,radius,color){
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.color = color;
-        
         this.alive = true;
     }
     //adding obstacle's function: render 
@@ -100,20 +99,19 @@ class topSpin{
         ctx.fill();
     }
     //moving automatically
-    //Ball bounce if it hits a wall
+    //Ball goes straight down
     //Ball goes back to the top and restart dropping if it hits bottom
     launch(){
         this.render();
-        
         this.y += 25 
         if(this.y - this.radius > game.height){
            setTimeout(()=>{ 
+            //adding a little delay by setting restaring point to the slightly higher position.
             this.y = -60;
             this.x = Math.floor(Math.random()*(game.width-30))
             this.y += 30;
         },300)
-        }
-       
+        } 
     }
 
   
@@ -126,7 +124,7 @@ let allBalls = [];
 const you = new Player(game.width/2,game.height-r,r,'grey')
 // ball always comes down from the top and x rocation alters randomly everytime.
 //velocity is an object which has x and y value so I can control the speed and angle of the ball movement.
-let rv = Math.floor(Math.random()*9-5);
+let rv = Math.floor(Math.random()*15-5);
 let rrv = Math.floor(Math.random()*9-5);
 // let rrv = Math.floor(Math.random()*13+15);
 const ball = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,20,'#FFFF00',{x:rv,y:25})
@@ -158,29 +156,68 @@ function movementHandler(e) {
 
 
 /* ================= functions ========================*/ 
-function constructingBalls(){
-    let rv = Math.floor(Math.random()*9-18);
-    let rrv = Math.floor(Math.random()*13+5);
-    while(allBalls.length<20){
-    const newBall = new Obstacle(Math.floor(Math.random()*(game.width-30)),30,30,'#FFFF00',{x:rv,y:25});
-    allBalls.push(newBall);
-    allBalls.length++;
+// function constructingBalls(){
+//     let rv = Math.floor(Math.random()*9-18);
+//     let rrv = Math.floor(Math.random()*13+5);
+//     while(allBalls.length<20){
+//     const newBall = new Obstacle(Math.floor(Math.random()*(game.width-30)),30,30,'#FFFF00',{x:rv,y:25});
+//     allBalls.push(newBall);
+//     allBalls.length++;
     
-}}
+// }}
 
 function gameLoop() {
     ctx.clearRect(0, 0, game.width, game.height);
-    you.render(); 
+
+    if(you.alive){
     curve.launch();
     ball.launch();
-    ballTwo.launchTwo();
+    ballTwo.launchTwo(); 
+    
+    detectHit(you,curve);
+    detectHit(you,ball);
+    detectHit(you,ballTwo);
+    }
+    you.render(); 
+   
+    
+ 
+  
     // for(i=0;i<allBalls.length;i++){
     //     console.log(allBalls)
     //     allBalls[i].launch()
-        
     // } 
     
-    
+}
+//Detect hit between player and obstacles
+function circleD (p1,p2){
+    let xD = p1.x -p2.x ;
+    let yD = p1.y - p2.y ;
+    return Math.sqrt(Math.pow(xD,2)+Math.pow(yD,2));
+}
+
+function detectHit(p1,p2) {
+  
+    if (circleD(p1,p2) < p1.radius+p2.radius) {
+        p1.alive = false;
+        p2.alive = false;
+      
+       document.removeEventListener("keydown", movementHandler);
+       gameOver() ;   
+    } 
+
+}
+
+//Game over Text
+function gameOver(){
+   const square = document.createElement('div');
+   document.body.append(square);
+//    square.style.background = 'red'
+   const textTag = document.createElement('h3')
+   textTag.innerText = "Oh...No...GameOver!"
+   square.append(textTag)
+  
+  
 }
 
 
@@ -198,8 +235,10 @@ function gameLoop() {
 // }
 
 /* ================= Running Game ========================*/ 
-const runGame = setInterval(gameLoop,50);
-constructingBalls()
+const runGame = setInterval(gameLoop,45);
+
+
+// constructingBalls()
 
 
 
@@ -213,29 +252,7 @@ constructingBalls()
 
 
 
-//Detect hit between player and obstacles
-// function detectHit(p1, p2) {
 
-//     let hitTest =
-//         p1.y + p1.height > p2.y &&
-//         p1.y < p2.y + p2.height  &&
-//         p1.x + p1.width > p2.x &&
-//         p1.x < p2.x + p2.width;
-
-//     let circleEnd =
-//         circle.y - (circle.height) > game.height;
-
-//     if (hitTest || circleEnd) {
-//         //     let gameScore =Number(score.textContent);
-//         // let newScore = gameScore + 100;
-//         // score.textContent = newScore;
-
-//         return addNewCirlce();
-//     } else {
-//         return false;
-//     }
-
-// }
 
 //Bounce after hitting sidewalls
 
