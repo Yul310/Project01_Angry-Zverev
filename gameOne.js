@@ -17,7 +17,7 @@ const container = document.getElementById('container');
    
     //create a 'text tag'
     const textTag = document.createElement('h3')
-    textTag.innerText = "Oh...No...\n GameOver!"
+    
     square.append(textTag)
     //textTag.style.attribute
     textTag.style.padding= '5px 5px 5px 5px';
@@ -26,6 +26,13 @@ const container = document.getElementById('container');
    restart.innerText = "Restart\n(space key)"
    square.append(restart)
    square.style.display = "none" 
+
+   // create a time count board tags and texts
+   const board = document.getElementById('board');
+   let secondText = document.createElement('h3');
+   board.append(secondText);
+   let seconds = 0;
+   secondText.innerText = "Time\n"+ seconds;
 
 
 
@@ -164,6 +171,7 @@ let rrv = Math.floor(Math.random()*9-5);
 const ball = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,15,'#FFFF00',{x:rv,y:25})
 const ballTwo = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,15,'#FFFF00',{x:rrv,y:25})
 const curve = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,15,'#dfff4f')
+const curveTwo = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,15,'#dfff4f')
 
 
 /*============== Keyboard Control ====================*/
@@ -180,10 +188,12 @@ function movementHandler(e) {
             (you.y + 2*you.radius) < game.height ? you.y += 2*r : null;
             break
         case "ArrowLeft":
-            you.x-you.radius > 0 ? you.x -= 2*r : null;
+           ( you.x-2*you.radius ) >= 0 ? you.x -= 2*r : null;
+           console.log(you.x)
             break
         case "ArrowRight":
-            (you.x + you.radius) < game.width ? you.x += 2*r: null;
+            (you.x +2*you.radius ) <= game.width ? you.x += 2*r: null;
+            console.log(you.x)
             break
         case ' ' :
                 restarting();
@@ -223,11 +233,18 @@ function gameLoop() {
     ballTwo.launchTwo(); 
     
     detectHit(you,curve);
+    
     detectHit(you,ball);
     detectHit(you,ballTwo);
+    victory(); 
+    if(seconds > 10 ){
+        curveTwo.launch();
+        detectHit(you,curveTwo);
+    }}
 
-    tShot(you,curve)
-   
+    if(seconds > 15 ){
+        curveTwo.color = 'red';
+        tShot(you,curveTwo)
     }
     you.render();
 
@@ -260,8 +277,10 @@ function tShot(p1,p2){
     let detection = 300
     if(circleD(p1,p2)<detection&& p1.x > p2.x ){
         p2.x += v; 
+        if(p2.x > game.width){ v = -1*v}
     }else if(circleD(p1,p2)<detection && p2.x > p1.x){
-        p2.x -= v
+        p2.x -= v;
+        if(p2.x < 0){ v = -1*v}
     }
 }
 //Game over Text
@@ -270,7 +289,20 @@ function gameOver(){
     if(you.alive){
         square.style.display = "none"
     }else{
+        textTag.innerText = "Oh...No...\n GameOver!"
         square.style.display = "block"
+    }
+   
+}
+function victory(){ 
+   
+    if(seconds === 30){
+        textTag.innerText = "You Won!"
+        square.style.display = "block"
+        square.style.removeProperty("background-color")
+    }else if(seconds >= 33){
+        
+        square.style.display = "none"
     }
    
 }
@@ -290,17 +322,13 @@ function runGame() {
 //    board.innerHTML = "Time:"+time()
  
 // }
-const board = document.getElementById('board');
-let secondText = document.createElement('h3');
-board.append(secondText);
-let seconds = 0;
-secondText.innerHTML = `Time:\n ${seconds}`;
+
 
 
 function timeCount(){
     if(you.alive)
   {  seconds +=1;
-    secondText.innerHTML = `Time:\n ${seconds}`}
+    secondText.innerText = "Time\n"+ seconds}
 }
 
 
