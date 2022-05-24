@@ -210,12 +210,28 @@ function detectHit(p1,p2) {
 
 //Game over Text
 function gameOver(){
+    //create a 'div'tag
    const square = document.createElement('div');
-   document.body.append(square);
-//    square.style.background = 'red'
+   const container = document.getElementById('container');
+   container.append(square);
+   //square.style.attribute
+   
+   square.style.border = 'solid 2px black'
+   square.style.borderRadius = '10px'
+   square.style.width = "250px"
+   square.style.height = "150px"
+   square.style.position = "absolute"
+   square.style.top = '50%'
+   square.style.left= '50%'
+   square.style.transform = 'translate(-50%,-50%)'
+   square.style.textAlign = 'center'
+  
+   //create a 'text tag'
    const textTag = document.createElement('h3')
-   textTag.innerText = "Oh...No...GameOver!"
+   textTag.innerText = "Oh...No...\n GameOver!"
    square.append(textTag)
+   //textTag.style.attribute
+   textTag.style.padding= '5px 5px 5px 5px';
   
   
 }

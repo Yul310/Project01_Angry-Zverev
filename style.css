@@ -9,16 +9,26 @@ html,body {
     background-color: rgb(255, 255, 255);
     background-size: cover;
     background-repeat: space;
+    
   }
-  
+  #container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0 auto;
+  }
  
   
   canvas {
-  
+    display: block;
     border:3px solid black;
     background-color: rgb(255, 255, 255);
-    width: 400PX;
-    height: 800PX;
+    margin: auto;
+    width: 45vh;
+    max-width: 450px;
+    height: 80vh;
+    max-height:850px;
+    
   }
   
 
