@@ -32,7 +32,8 @@ const container = document.getElementById('container');
 /*========= VARIABLES ========*/
 let game = document.querySelector("#game");
 let zverev;
-let r = 25;//!!this variable is deciding player circle's radius & movement speed!!
+let r = 20;//!!this variable is deciding player circle's radius & movement speed!!
+
 // this creates a 2 dimensional canvas =>
 let ctx = game.getContext("2d");
 game.setAttribute("height", getComputedStyle(game)["height"]);
@@ -160,9 +161,9 @@ const you = new Player(game.width/2,game.height-r,r,'grey')
 let rv = Math.floor(Math.random()*15-5);
 let rrv = Math.floor(Math.random()*9-5);
 // let rrv = Math.floor(Math.random()*13+15);
-const ball = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,20,'#FFFF00',{x:rv,y:25})
-const ballTwo = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,20,'#FFFF00',{x:rrv,y:25})
-const curve = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,20,'#dfff4f')
+const ball = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,15,'#FFFF00',{x:rv,y:25})
+const ballTwo = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,15,'#FFFF00',{x:rrv,y:25})
+const curve = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,15,'#dfff4f')
 
 
 /*============== Keyboard Control ====================*/
@@ -226,13 +227,10 @@ function gameLoop() {
     detectHit(you,ballTwo);
 
     tShot(you,curve)
+   
     }
     you.render();
- 
-   
-    
- 
-  
+
     // for(i=0;i<allBalls.length;i++){
     //     console.log(allBalls)
     //     allBalls[i].launch()
@@ -255,13 +253,14 @@ function detectHit(p1,p2) {
     //    document.removeEventListener("keydown", movementHandler);
        gameOver() ;   
     } 
-}
-//curve ball
+}  
+//curve ball 
 function tShot(p1,p2){
-    let v = 10;
-    if(circleD(p1,p2)<400&& p1.x > p2.x ){
-        p2.x += v;
-    }else if(circleD(p1,p2)<400 && p2.x > p1.x){
+    let v = 8.5;
+    let detection = 300
+    if(circleD(p1,p2)<detection&& p1.x > p2.x ){
+        p2.x += v; 
+    }else if(circleD(p1,p2)<detection && p2.x > p1.x){
         p2.x -= v
     }
 }
@@ -283,6 +282,26 @@ function restarting(){
 function runGame() {  
     setInterval(gameLoop,45);
 }
+//Count time
+// function drawTime(){
+//    const board = document.getElementById('board');
+//    let secondText = document.createElement('h3');
+//    let seconds = 0;
+//    board.innerHTML = "Time:"+time()
+ 
+// }
+const board = document.getElementById('board');
+let secondText = document.createElement('h3');
+board.append(secondText);
+let seconds = 0;
+secondText.innerHTML = `Time:\n ${seconds}`;
+
+
+function timeCount(){
+    if(you.alive)
+  {  seconds +=1;
+    secondText.innerHTML = `Time:\n ${seconds}`}
+}
 
 
 // function constructingBalls(){
@@ -298,7 +317,7 @@ function runGame() {
 // }
 
 /* ================= Running Game ========================*/ 
-
+setInterval(timeCount,1000)
     runGame();
 
 
