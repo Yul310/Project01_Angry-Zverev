@@ -4,12 +4,16 @@ html,body {
   }
   
   body {
+   
     padding-top: 1em;
     text-align: center;
     background-color: rgb(255, 255, 255);
     background-size: cover;
     background-repeat: space;
     
+  }
+  h1{
+    margin: 50px auto;
   }
   #container{
     position: absolute;
@@ -18,13 +22,14 @@ html,body {
     transform: translate(-50%,-50%);
     margin: 0 auto;
   }
+  
  
   
   canvas {
     display: block;
     border:3px solid black;
     background-color: rgb(255, 255, 255);
-    margin: auto;
+    margin: 0px auto;
     width: 45vh;
     max-width: 450px;
     height: 80vh;
