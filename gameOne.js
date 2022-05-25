@@ -104,7 +104,7 @@ let zverev;
 let r = 20;//!!this variable is deciding player circle's radius & movement speed!!
 let rs = 40;
 let os =30;
-let rv = Math.floor(Math.random()*7-4);
+let rv = Math.floor(Math.random()*10-4);
 let rrv = Math.floor(Math.random()*8);
 let arrayR = [20,-20,-5,5,-10,35,-50,40]
 // this creates a 2 dimensional canvas => 
@@ -138,9 +138,9 @@ class ImagePlayer{
         this.face = true;
        
     }
- 
+   
     draw(){ 
-        if(this.face === true ||this.alive === true){
+        if(this.face === true ){
      ctx.drawImage(imgP,this.x,this.y,this.width,this.height) 
      setTimeout(() =>{this.face =false},300)
         }else if(this.alive === false){
@@ -247,8 +247,7 @@ class topSpin{
             this.y = -60;
             this.x = Math.floor(Math.random()*(game.width-rs)/1.5)
             this.y += 30; 
-        } 
-    }
+        } }
     
 
 }
@@ -267,8 +266,10 @@ const yellow = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,
 const orange = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,{x:arrayR[rrv],y:20})
 const red = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
 const purple = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
+const purpleIns = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
 
 const smile = new ImagePlayer((game.width-rs)/2,game.height-rs,rs,rs,rs);
+
 
 
 
@@ -277,8 +278,8 @@ const smile = new ImagePlayer((game.width-rs)/2,game.height-rs,rs,rs,rs);
 /*============== Keyboard Control ====================*/
 //KEYBOARD INTERACTION LOGIC
 function movementHandler(e) {
-    console.log("the key that was pressed was:" + e.key)
-    console.log(smile.y)
+    // console.log("the key that was pressed was:" + e.key)
+    // console.log(smile.y)
 
     switch (e.key) {
         case "ArrowUp":
@@ -288,40 +289,31 @@ function movementHandler(e) {
             (smile.y + smile.height) < game.height ? smile.y += rs : null;
             break
         case "ArrowLeft":
-           ( smile.x ) >= 0 ? smile.x -= rs: null;
-           console.log(smile.x)
+           ( smile.x ) >= -100 ? smile.x -= rs: null;
+        //    console.log(smile.x)
             break
         case "ArrowRight":
             (smile.x + smile.width ) <= game.width ? smile.x += rs: null;
-            console.log(smile.x)
+            // console.log(smile.x)
             break
         case ' ' :
             restarting();
-            console.log('working')
+            // console.log('working')
             break
         case 'Enter' :
             start.removeEventListener("click",() => {
                 instructorInit()
                 gameStart.style.display = 'block' 
             })
-            text = true;
-            clearInterval();
-            gameInit();
-            console.log('enter')
+            // text = null;
+            // clearInterval();
+            gameInit()
+            // gameInit();
+            // console.log('enter')
             break
                  
     }    
 }
-// function space(e) {
-//     console.log("the key that was pressed was:" + e.code)
-//     switch (e.code) {
-//         case 'Space' :
-//             restarting();
-//             console.log('working')
-//             break
-//     }    
-// }
-
 
 /* ================= functions ========================*/ 
 
@@ -329,6 +321,28 @@ function movementHandler(e) {
 function restarting(){
    window.onload()
    reloadP()
+    }
+// function restarting(){
+//        clearInterval()
+//        smile.alive = true;
+//        seconds = 0;
+//        gameInit()
+       
+//          }
+//reloading
+    window.onload = function() {
+        var reloading = sessionStorage.getItem("reloading");
+        if (reloading) {
+            sessionStorage.removeItem("reloading");
+           
+            gameInit2();
+           
+        }
+    }
+    
+    function reloadP() {
+        sessionStorage.setItem("reloading", "true");
+        document.location.reload();
     }
 //instruction Initiation
 function instructorInit(){
@@ -341,26 +355,24 @@ function instructorInit(){
 //Game Initiation//
 function gameInit(){
 
+        text = null;
+        clearInterval();
        
         board.style.display = "block" 
         
-        setInterval(timeCount,1000)
+       setInterval(timeCount,1000)
         runGame(); 
     }
-//reloading
-    window.onload = function() {
-        var reloading = sessionStorage.getItem("reloading");
-        if (reloading) {
-            sessionStorage.removeItem("reloading");
-            gameInit();
-        }
+    function gameInit2(){
+        sDiv.style.display = 'none'
+        text = null;
+        clearInterval();
+        game.style.display = "block";
+        board.style.display = "block" 
+        
+       setInterval(timeCount,1000)
+        runGame(); 
     }
-    
-    function reloadP() {
-        sessionStorage.setItem("reloading", "true");
-        document.location.reload();
-    }
-
     
 //Game Loop
 function gameLoop() {
@@ -419,10 +431,10 @@ function tShot(p1,p2){
     let detection = 300
     if(circleD(p1,p2)<detection&& p1.x > p2.x ){
         p2.x += v; 
-        if(p2.x > game.width){ v = -1*v}
+        if(p2.x >= game.width){ v = -1*v}
     }else if(circleD(p1,p2)<detection && p2.x > p1.x){
         p2.x -= v;
-        if(p2.x < 0){ v = -1*v}
+        if(p2.x <= 0){ v = -1*v}
     }
 }
 //Game over Text
@@ -471,8 +483,8 @@ function instruction(){
 if(text === false)
    { ctx.clearRect(0, 0, game.width, game.height)
     smile.draw();
-    setInterval(purple.launchP(),3000)
-    tShot(smile,purple) 
+    const purpleInter = setInterval(purpleIns.launchP(),3000)
+    tShot(smile,purpleIns) 
     // text
     ctx.font = "20px Arial";
     ctx.textAlign = "center"
@@ -482,7 +494,7 @@ if(text === false)
     ctx.fillText("When you are ready,", (game.width)/2,game.height/2+80);
     ctx.fillText("hit ENTER key!", (game.width)/2,game.height/2+100);
     
-
+console.log('ins')
   }}
   
   function texting() {
@@ -516,6 +528,6 @@ if(text === false)
    
    setTimeout(textingTwo,4500)
    setTimeout(()=>{text = false},9000)
-   setInterval(instruction,45)
+   const insInter = setInterval(instruction,45)
 }
 /*============ bin ==================*/
