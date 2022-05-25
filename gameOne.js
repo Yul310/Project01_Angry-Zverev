@@ -62,7 +62,7 @@ let rs = 40;
 let os =30;
 let rv = Math.floor(Math.random()*7-4);
 let rrv = Math.floor(Math.random()*8);
-let arrayR = [20,-20,-5,5,-10,35,-60,40]
+let arrayR = [20,-20,-5,5,-10,35,-50,40]
 // this creates a 2 dimensional canvas => 
 let ctx = game.getContext("2d"); 
 game.setAttribute("height", getComputedStyle(game)["height"]);
@@ -85,10 +85,23 @@ class ImagePlayer{
         this.height = height;
          this.radius = radius;
         this.alive = true;
+        this.face = true;
     }
-    draw(){
-     ctx.drawImage(imgP,this.x,this.y,this.width,this.height)
-    }
+    draw(){ 
+        if(this.face === true ){
+     ctx.drawImage(imgP,this.x,this.y,this.width,this.height) 
+     setTimeout(() =>{this.face =false},300)
+        }else if(this.alive === false){
+            ctx.drawImage(imgP3,this.x,this.y,this.width,this.height)  
+        }
+           else{
+            ctx.drawImage(imgP2,this.x,this.y,this.width,this.height)
+            setTimeout(() =>{this.face =true},300)
+        }
+        }
+
+        
+    
     // draw2(){
     //     ctx.drawImage(imgP2,this.x,this.y,this.width,this.height)
     //    }
@@ -283,7 +296,7 @@ function gameLoop() {
     //     tShot(smile,purple) 
     // }
     
-
+    
     victory(); 
     smile.draw();
 }
@@ -371,6 +384,7 @@ function timeCount(){
   {  seconds +=1;
     secondText.innerText = "Time\n"+ seconds}
 }
+
 
 
 // function constructingBalls(){
