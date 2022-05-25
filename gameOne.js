@@ -1,7 +1,7 @@
 /*========= DOM ========*/
 const container = document.getElementById('container');
     //create a 'div'tag
-    const square = document.createElement('div');
+const square = document.createElement('div');
     container.append(square);
     //square.style.attribute
     //square.style.border = 'solid 2px black'
@@ -16,13 +16,13 @@ const container = document.getElementById('container');
     square.style.textAlign = 'center'
    
     //create a 'text tag'
-    const textTag = document.createElement('h3')
+const textTag = document.createElement('h3')
     
     square.append(textTag)
     //textTag.style.attribute
     textTag.style.padding= '5px 5px 5px 5px';
    //create a 'restart button'
-   const restart = document.createElement('button')
+const restart = document.createElement('button')
    restart.innerText = "Restart\n(space key)"
    square.append(restart)
    square.style.display = "none" 
@@ -33,6 +33,7 @@ const container = document.getElementById('container');
    board.append(secondText);
    let seconds = 0;
    secondText.innerText = "Time\n"+ seconds;
+   board.style.display = "none" 
    
 /* ======== create image tags ========= */
 //   imgP.onload=function(){
@@ -242,9 +243,9 @@ function movementHandler(e) {
             console.log(smile.x)
             break
         case ' ' :
-                restarting();
-                console.log('working')
-                break
+            restarting();
+            console.log('working')
+            break
                  
     }    
 }
@@ -384,7 +385,13 @@ function timeCount(){
   {  seconds +=1;
     secondText.innerText = "Time\n"+ seconds}
 }
-
+//Game Initiation//
+function gameInit(){
+    game.style.display = "block";
+    board.style.dispay = "block";
+    setInterval(timeCount,1000)
+    runGame();
+}
 
 
 // function constructingBalls(){
@@ -400,8 +407,7 @@ function timeCount(){
 // }
 
 /* ================= Running Game ========================*/ 
-setInterval(timeCount,1000)
-    runGame();
+
 
 
 // constructingBalls()

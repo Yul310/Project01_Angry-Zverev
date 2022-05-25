@@ -25,12 +25,13 @@ html,body {
  
   
   canvas {
-    display: block;
+    display: none;
     border:2px solid rgb(0, 0, 0);
     border-radius: 20px;
     background-image:url(Image/COURTONE.jpg) ;
     background-size: cover;
     padding: 0 auto;
+    
    
     
 
@@ -41,9 +42,9 @@ html,body {
     /* min-width:300px;
     width: 440px;
     min-height: 600px;
-    height: 800px;
+    height: 800px;s
      */
-     width: 45vh;
+     width: 43vh;
      height: 75vh;
   }
   
