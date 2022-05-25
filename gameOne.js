@@ -36,10 +36,10 @@ zImage.style.width = "40vh"
 zImage.style.height = "40vh"
 sDiv.append(zImage)  
 
-//Create a 'Start Button's
+//Create a 'Instruction Start Button'
 const start = document.createElement('div')
     start.setAttribute('id','start')
-    start.innerText = "Start a game?"
+    start.innerText = "Start?"
     start.style.margin = '50px auto'
     start.style.width = '300px'
     start.style.border = "solid 2px black"
@@ -48,6 +48,18 @@ const start = document.createElement('div')
     start.style.borderRadius = '10px'
     sDiv.append(start)
 
+// Create a 'Game Start Button'
+const gameStart = document.createElement('div')
+    gameStart.setAttribute('id','gameStart')
+    gameStart.innerText = "Start a game?"
+    gameStart.style.margin = '100px auto'
+    gameStart.style.width = '100px'
+    gameStart.style.border = "solid 1px black"
+    gameStart.style.fontSize = '12px'
+    gameStart.style.padding = '10px 40px 10px 40px'
+   
+    document.body.append(gameStart)
+    gameStart.style.display = 'none' 
 
 //create a 'restart button'
 const restart = document.createElement('button')
@@ -105,8 +117,13 @@ game.setAttribute("width", getComputedStyle(game)["width"]);
 document.addEventListener("keydown", movementHandler)
 
 start.addEventListener("click",() => {
-    
-    gameInit();})
+    instructorInit()
+    gameStart.style.display = 'block' 
+    })
+
+// gameStart.addEventListener("click",() => {
+  
+//     gameInit()})
 
 /*=================== class Collections======================*/
 
@@ -282,6 +299,16 @@ function movementHandler(e) {
             restarting();
             console.log('working')
             break
+        case 'Enter' :
+            start.removeEventListener("click",() => {
+                instructorInit()
+                gameStart.style.display = 'block' 
+            })
+            text = true;
+            clearInterval();
+            gameInit();
+            console.log('enter')
+            break
                  
     }    
 }
@@ -303,19 +330,22 @@ function restarting(){
    window.onload()
    reloadP()
     }
-
+//instruction Initiation
+function instructorInit(){
+  
+    sDiv.style.display = 'none'
+    
+    game.style.display = "block";
+    instructor();
+}
 //Game Initiation//
 function gameInit(){
 
-        start.removeEventListener("click",() => {
-            gameInit();})
-        sDiv.style.display = 'none'
+       
+        board.style.display = "block" 
         
-        game.style.display = "block";
-        // board.style.display = "block" 
-        
-        // setInterval(timeCount,1000)
-        // runGame(); 
+        setInterval(timeCount,1000)
+        runGame(); 
     }
 //reloading
     window.onload = function() {
@@ -432,9 +462,10 @@ function timeCount(){
     secondText.innerText = "Time\n"+ seconds}
    
 }
-
-/*=========== Instructing Sequence ==========*/
 let text = true
+/*=========== Instructing Sequence ==========*/
+function instructor (){
+   
 let textTwo = true
 function instruction(){
 if(text === false)
@@ -449,7 +480,7 @@ if(text === false)
     
     ctx.fillText("Can you dodge it?", (game.width)/2,game.height/2+60);
     ctx.fillText("When you are ready,", (game.width)/2,game.height/2+80);
-    ctx.fillText("hit Space key!", (game.width)/2,game.height/2+100);
+    ctx.fillText("hit ENTER key!", (game.width)/2,game.height/2+100);
     
 
   }}
@@ -474,8 +505,8 @@ if(text === false)
     if(textTwo === true){
     ctx.fillText("After 15 seconds,", (game.width)/2,game.height/2+60);
     ctx.fillText("Zverev is going to shoot ", (game.width)/2,game.height/2+80);
-    ctx.fillText("Magic Purple Shots!", (game.width)/2,game.height/2+100);
-    ctx.fillText("Be careful.", (game.width)/2,game.height/2+120);
+    ctx.fillText("you Magic Purple Shots!", (game.width)/2,game.height/2+100);
+    ctx.fillText("Be careful!.", (game.width)/2,game.height/2+120);
     ctx.fillText("I'll show you ", (game.width)/2,game.height/2+140);
     ctx.fillText("what it is. ", (game.width)/2,game.height/2+160);
     }   
@@ -486,4 +517,5 @@ if(text === false)
    setTimeout(textingTwo,4500)
    setTimeout(()=>{text = false},9000)
    setInterval(instruction,45)
+}
 /*============ bin ==================*/
