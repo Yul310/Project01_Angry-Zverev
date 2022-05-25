@@ -33,7 +33,25 @@ const container = document.getElementById('container');
    board.append(secondText);
    let seconds = 0;
    secondText.innerText = "Time\n"+ seconds;
-
+   
+/* ======== create image tags ========= */
+//   imgP.onload=function(){
+//     ctx.drawImage(imgP,0,0,game.width,game.height);
+//     };
+  imgP = new Image();
+  imgP.src ="Image/smileTwo.png";
+  imgP2 = new Image();
+  imgP2.src ="Image/smile.png";
+  imgP3 = new Image();
+  imgP3.src ="Image/angry.png";
+  ballY = new Image();
+  ballY.src ="Image/ballYellow.png";
+  ballR = new Image();
+  ballR.src ="Image/ballRed.png";
+  ballP = new Image();
+  ballP.src ="Image/ballpurple.png";
+  ballO = new Image();
+  ballO.src ="Image/ball orange.png";
 
 
 /*========= VARIABLES ========*/
@@ -57,12 +75,14 @@ document.addEventListener("keydown", movementHandler)
 
 //Build a player class
 class Player{
-    constructor(x,y,radius,color){
+    constructor(x,y,radius,color,dx,dy){
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.color = color;
         this.alive = true;
+        this.dx = dx;
+        this.dy = dy;
     }
     //adding player's function: render & moving(location change) 
 
@@ -72,6 +92,30 @@ class Player{
         ctx.fillStyle = this.color;
         ctx.fill();
     }
+  
+}
+
+class ImagePlayer{
+    constructor(x,y,width,height,radius){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.radius = radius;
+    }
+    draw(){
+       
+     ctx.drawImage(imgP,this.x,this.y,this.width,this.height)
+    //  round.borderRadius ='10px'
+    //  ctx.drawImage(imgP, 0, 0, 40, 40, 30, 40, 40, 40);
+    //  ctx.globalCompositeOperation = 'destination-in';
+    //  ctx.fillStyle = this.color;
+    //  ctx.beginPath();
+    //  ctx.arc(this.x,this.y,this.radius,0,2*Math.PI,false);
+    //  ctx.fill();
+    //  ctx.globalCompositeOperation = 'source-over';
+    }
+    
 }
 
 //Build a obstacle class
@@ -173,6 +217,9 @@ const ballTwo = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,15,'#
 const curve = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,15,'#dfff4f')
 const curveTwo = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,15,'#dfff4f')
 
+const smile = new ImagePlayer(game.width/2,game.height-40,40,40,40);
+
+
 
 /*============== Keyboard Control ====================*/
 //KEYBOARD INTERACTION LOGIC
@@ -231,9 +278,8 @@ function gameLoop() {
     curve.launch();
     ball.launch();
     ballTwo.launchTwo(); 
-    
-    detectHit(you,curve);
-    
+   
+    detectHit(you,curve);  
     detectHit(you,ball);
     detectHit(you,ballTwo);
     victory(); 
@@ -247,6 +293,7 @@ function gameLoop() {
         tShot(you,curveTwo)
     }
     you.render();
+    smile.draw();
 
     // for(i=0;i<allBalls.length;i++){
     //     console.log(allBalls)
