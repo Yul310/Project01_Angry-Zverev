@@ -17,19 +17,37 @@ const square = document.createElement('div');
    
 //create a 'text tag'
 const textTag = document.createElement('h3')
-    
     square.append(textTag)
-    //textTag.style.attribute
     textTag.style.padding= '5px 5px 5px 5px';
-//Create a 'Start Button'
+
+//Create a div for the Staring Page
+const sDiv = document.createElement('div')
+    sDiv.setAttribute('id','sDiv');
+    document.body.append(sDiv);
+
+
+//Create a 'Starting Page Image'
+const zImage = document.createElement('IMG');
+zImage.setAttribute('id','zImage')
+zImage.src = 'https://c.tenor.com/Fc22vaevNrcAAAAd/alexander-zverev-temper-tantrum.gif'
+zImage.style.borderRadius = '50px'
+zImage.style.marginTop = '15vh'
+zImage.style.width = "40vh"
+zImage.style.height = "40vh"
+sDiv.append(zImage)  
+
+//Create a 'Start Button's
 const start = document.createElement('div')
     start.setAttribute('id','start')
-    start.innerText = "Start"
-    start.style.border = "solid 1px black"
+    start.innerText = "Start a game?"
+    start.style.margin = '50px auto'
+    start.style.width = '300px'
+    start.style.border = "solid 2px black"
     start.style.fontSize = '30px'
-    start.style.padding = '5px 40px 5px 40px'
+    start.style.padding = '10px 40px 10px 40px'
     start.style.borderRadius = '10px'
-    container.append(start)
+    sDiv.append(start)
+
 
 //create a 'restart button'
 const restart = document.createElement('button')
@@ -44,6 +62,8 @@ const board = document.getElementById('board');
    let seconds = 0;
    secondText.innerText = "Time\n"+ seconds;
    board.style.display = "none" 
+
+
    
 /* ======== create image tags ========= */
 //   imgP.onload=function(){
@@ -67,6 +87,7 @@ const board = document.getElementById('board');
 
 /*========= VARIABLES ========*/
 let game = document.querySelector("#game");
+
 let zverev;
 let r = 20;//!!this variable is deciding player circle's radius & movement speed!!
 let rs = 40;
@@ -76,6 +97,7 @@ let rrv = Math.floor(Math.random()*8);
 let arrayR = [20,-20,-5,5,-10,35,-50,40]
 // this creates a 2 dimensional canvas => 
 let ctx = game.getContext("2d"); 
+
 game.setAttribute("height", getComputedStyle(game)["height"]);
 game.setAttribute("width", getComputedStyle(game)["width"]);
 
@@ -83,12 +105,9 @@ game.setAttribute("width", getComputedStyle(game)["width"]);
 document.addEventListener("keydown", movementHandler)
 
 start.addEventListener("click",() => {
-    // start.style.display = 'none'
+    
     gameInit();})
 
-
- 
-  
 /*=================== class Collections======================*/
 
 class ImagePlayer{
@@ -100,9 +119,11 @@ class ImagePlayer{
          this.radius = radius;
         this.alive = true;
         this.face = true;
+       
     }
+ 
     draw(){ 
-        if(this.face === true ){
+        if(this.face === true ||this.alive === true){
      ctx.drawImage(imgP,this.x,this.y,this.width,this.height) 
      setTimeout(() =>{this.face =false},300)
         }else if(this.alive === false){
@@ -114,14 +135,6 @@ class ImagePlayer{
         }
         }
 
-        
-    
-    // draw2(){
-    //     ctx.drawImage(imgP2,this.x,this.y,this.width,this.height)
-    //    }
-    // draw3(){
-    //     ctx.drawImage(imgP3,this.x,this.y,this.width,this.height)
-    //    }
 }
 
 //Build a obstacle class
@@ -137,11 +150,15 @@ class Obstacle{
     //adding obstacle's function: render 
 
     render(){
+        if(this.alive){
         ctx.drawImage(ballY,this.x,this.y,this.width,this.height)
        }
+    }
     renderOrange(){
+        if(this.alive){
         ctx.drawImage(ballO,this.x,this.y,this.width,this.height)
        }
+    }
     //Ball bounce if it hits a wall
     //Ball goes back to the top and restart dropping if it hits bottom
     launchYellow(){
@@ -184,11 +201,13 @@ class topSpin{
     //adding obstacle's function: render 
 
     renderRed(){
+        if(this.alive){
         ctx.drawImage(ballR,this.x,this.y,this.width,this.height)
-       }
+       }}
     renderPurple(){
+        if(this.alive){
         ctx.drawImage(ballP,this.x,this.y,this.width,this.height)
-       }
+       }}
     //moving automatically
     //Ball goes straight down
     //Ball goes back to the top and restart dropping if it hits bottom
@@ -216,6 +235,7 @@ class topSpin{
     
 
 }
+
 /*======== Build Array =======*/
 let allBalls = [];
 /*=================== Game Player Constructions ======================*/
@@ -225,12 +245,15 @@ let allBalls = [];
 //velocity is an object which has x and y value so I can control the speed and angle of the ball movement.
 
 // let rrv = Math.floor(Math.random()*13+15);
+
 const yellow = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,{x:rv,y:20})
 const orange = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,{x:arrayR[rrv],y:20})
 const red = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
 const purple = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
 
 const smile = new ImagePlayer((game.width-rs)/2,game.height-rs,rs,rs,rs);
+
+
 
 
 
@@ -283,14 +306,16 @@ function restarting(){
 
 //Game Initiation//
 function gameInit(){
+
         start.removeEventListener("click",() => {
             gameInit();})
-        start.style.display = 'none'
-        game.style.display = "block";
-        board.style.display = "block" 
+        sDiv.style.display = 'none'
         
-        setInterval(timeCount,1000)
-        runGame(); 
+        game.style.display = "block";
+        // board.style.display = "block" 
+        
+        // setInterval(timeCount,1000)
+        // runGame(); 
     }
 //reloading
     window.onload = function() {
@@ -309,9 +334,11 @@ function gameInit(){
     
 //Game Loop
 function gameLoop() {
+   
     ctx.clearRect(0, 0, game.width, game.height);
-
+    
     if(smile.alive){    
+    
     yellow.launchYellow();
     red.launch()
     detectHit(smile,yellow);  
@@ -328,9 +355,9 @@ function gameLoop() {
     }
     }else{ctx.clearRect(0, 0, game.width, game.height)}
     
-    
-    victory(); 
     smile.draw();
+    victory(); 
+   
 }
 
 
@@ -406,8 +433,57 @@ function timeCount(){
    
 }
 
+/*=========== Instructing Sequence ==========*/
+let text = true
+let textTwo = true
+function instruction(){
+if(text === false)
+   { ctx.clearRect(0, 0, game.width, game.height)
+    smile.draw();
+    setInterval(purple.launchP(),3000)
+    tShot(smile,purple) 
+    // text
+    ctx.font = "20px Arial";
+    ctx.textAlign = "center"
+    ctx.fillStyle = 'white'
+    
+    ctx.fillText("Can you dodge it?", (game.width)/2,game.height/2+60);
+    ctx.fillText("When you are ready,", (game.width)/2,game.height/2+80);
+    ctx.fillText("hit Space key!", (game.width)/2,game.height/2+100);
+    
 
+  }}
+  
+  function texting() {
+    ctx.font = "20px Arial";
+    ctx.textAlign = "center"
+    ctx.fillStyle = 'white'
+    if(text === true){
+    ctx.fillText("You have to avoid", (game.width)/2,game.height/2+60);
+    ctx.fillText("all the balls, coming", (game.width)/2,game.height/2+80);
+    ctx.fillText("to you. Use arrow keys", (game.width)/2,game.height/2+100);
+    ctx.fillText("to avoid the balls.", (game.width)/2,game.height/2+120);
+    }   
 
-
+  }
+  function textingTwo() {
+    ctx.clearRect(0, 0, game.width, game.height)
+    ctx.font = "20px Arial";
+    ctx.textAlign = "center"
+    ctx.fillStyle = 'white'
+    if(textTwo === true){
+    ctx.fillText("After 15 seconds,", (game.width)/2,game.height/2+60);
+    ctx.fillText("Zverev is going to shoot ", (game.width)/2,game.height/2+80);
+    ctx.fillText("Magic Purple Shots!", (game.width)/2,game.height/2+100);
+    ctx.fillText("Be careful.", (game.width)/2,game.height/2+120);
+    ctx.fillText("I'll show you ", (game.width)/2,game.height/2+140);
+    ctx.fillText("what it is. ", (game.width)/2,game.height/2+160);
+    }   
+  }
+//   setInterval(instruction,45)
+   texting()
+   
+   setTimeout(textingTwo,4500)
+   setTimeout(()=>{text = false},9000)
+   setInterval(instruction,45)
 /*============ bin ==================*/
-
