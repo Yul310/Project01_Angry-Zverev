@@ -503,9 +503,11 @@ if(text === false)
     purpleIns.launchP()
     tShot(smile,purpleIns) 
     // text
-    ctx.font = "24px Arial";
+    
+    ctx.font = "22px Arial";
     ctx.textAlign = "center"
     ctx.fillStyle = 'white'
+   
     
     ctx.fillText("Can you dodge it?", (game.width)/2,game.height/2+60);
     ctx.fillText("When you are ready to play,", (game.width)/2,game.height/2+90);
@@ -518,7 +520,7 @@ console.log('ins')
 }
   
   function texting() {
-    ctx.font = "24px Arial";
+    ctx.font = "22px Arial";
     ctx.textAlign = "center"
     ctx.fillStyle = 'white'
     if(text === true){
@@ -532,7 +534,7 @@ console.log('ins')
   }
   function textingTwo() {
     ctx.clearRect(0, 0, game.width, game.height)
-    ctx.font = "24px Arial";
+    ctx.font = "22px Arial";
     ctx.textAlign = "center"
     ctx.fillStyle = 'white'
     if(textTwo === true){
