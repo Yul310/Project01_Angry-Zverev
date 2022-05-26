@@ -507,7 +507,7 @@ function gameOver(){
 }
 function victory(){ 
    
-    if(seconds === 30){
+    if(seconds === 60){
         textTag.innerText = "You Won!\n but don't stop yet!"
         textTag.style.fontSize = '28px'
         textTag.style.color = "white"
