@@ -126,6 +126,48 @@ html,body {
       
     }
 }
-  
+    /* ANIMATION 003*/
+ .cell3 {
+  position: absolute; 
+  display: block;
+   
+  animation: opening3 3s infinite;
+  /* animation: opening 2s 4; */
+} 
+
+#imgP0 {
+  top: 500px;  
+  left: 85%;
+  animation-delay: 9s;
+  opacity:0;
+}
+#imgP1 {
+  top: 200px;  
+  left: 67%;
+  animation-delay: 3s;
+  opacity:0;
+}
+#imgP2 {
+  top: 400px;  
+  right: 65%;
+  animation-delay: 7s;
+  opacity:0;
+}
+#imgP3 {
+  top: 150px;  
+  right: 80%;
+  animation-delay: 1s;
+  opacity:0;
+  }
+
+
+@keyframes opening3 {
+  0% {
+   opacity: 0;
+  }
+  100% { 
+    opacity: 1;
+  }
+}
 
  
