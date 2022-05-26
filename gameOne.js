@@ -24,7 +24,7 @@ const sDiv = document.createElement('div')
     document.body.append(sDiv);
 
 
-//Create a 'Starting Page Image'
+//Create a 'Starting Page GIF'
 const zImage = document.createElement('IMG');
 zImage.setAttribute('id','zImage')
 zImage.src = 'https://c.tenor.com/Fc22vaevNrcAAAAd/alexander-zverev-temper-tantrum.gif'
@@ -54,11 +54,9 @@ const gameStart = document.createElement('div')
     gameStart.style.width = '100px'
     gameStart.style.border = "solid 1px black"
     gameStart.style.fontSize = '12px'
-    gameStart.style.padding = '10px 40px 10px 40px'
-   
-    document.body.append(gameStart)
+    gameStart.style.padding = '10px 40px 10px 40px' 
     gameStart.style.display = 'none' 
-
+    document.body.append(gameStart)
 // //create a 'restart button'
 // const restart = document.createElement('div')
 // const restartText = document.createElement('p')
@@ -78,9 +76,7 @@ const board = document.getElementById('board');
 
    
 /* ======== create image tags ========= */
-//   imgP.onload=function(){
-//     ctx.drawImage(imgP,0,0,game.width,game.height);
-//     };
+
   imgP = new Image();
   imgP.src ="Image/smileTwo.png";
   imgP2 = new Image();
@@ -242,7 +238,7 @@ class topSpin{
     }
     launchP(){
         this.renderPurple();
-        this.y += 20 
+        this.y += 22 
         if(this.y - this.width > game.height){
             this.y = -60;
             this.x = Math.floor(Math.random()*(game.width-rs)/1.5)
@@ -258,7 +254,7 @@ let allBalls = [];
 // ball always comes down from the top and x rocation alters randomly everytime.
 //velocity is an object which has x and y value so I can control the speed and angle of the ball movement.
 
-const yellow = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,{x:rv,y:20})
+const yellow = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,{x:rv,y:23})
 const orange = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,{x:arrayR[rrv],y:20})
 const red = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
 const purple = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
@@ -289,10 +285,10 @@ function movementHandler(e) {
             (smile.x + smile.width ) <= game.width ? smile.x += rs: null;
             // console.log(smile.x)
             break
-        case ' ' :
-            restarting();
-            // console.log('working')
-            break
+        // case ' '  :
+        //     restarting();
+        //     // console.log('working')
+        //     break
         case 'Enter' :
             start.removeEventListener("click",() => {
                 instructorInit()
@@ -303,6 +299,9 @@ function movementHandler(e) {
             break
                  
     }    
+    if (e.key ===' ' && smile.alive === false){
+        restarting();
+    }
 }
 
 /* ================= functions ========================*/ 
@@ -411,10 +410,11 @@ function detectHit(p1,p2) {
       
        gameOver() ;   
     } 
+    console.log(smile.alive)
 }  
 //curve ball 
 function tShot(p1,p2){
-    let v = 8.5;
+    let v = 9;
     let detection = 300
     if(circleD(p1,p2)<detection&& p1.x > p2.x ){
         p2.x += v; 
@@ -429,8 +429,9 @@ function gameOver(){
    
     if(smile.alive){
         square.style.display = "none"
-    }else{
-        textTag.innerText = "Oh...No...TT\n GameOver!\n \nto restart\n hit SPACE key"
+    }
+    else if(smile.alive === false){
+        textTag.innerText = "Oh...No...\n GameOver!\n \nto try again\n hit SPACE key"
         textTag.style.fontSize = '28px'
         textTag.style.color = "white"
         square.style.display = "block"
@@ -440,13 +441,13 @@ function gameOver(){
 }
 function victory(){ 
    
-    if(seconds === 45){
+    if(seconds === 30){
         textTag.innerText = "You Won!\n but don't stop yet!"
         textTag.style.fontSize = '28px'
         textTag.style.color = "white"
         square.style.display = "block"
         square.style.removeProperty("background-color")
-    }else if(seconds >= 48|| smile.alive === true){
+    }else if(seconds >= 34|| smile.alive === true){
         square.style.display = "none"
     }
    
@@ -466,7 +467,10 @@ function timeCount(){
    
 }
 let text = true
-/*=========== Instructing Sequence Function ==========*/
+
+/*=========== Instructing Tutoral Function ==========*/
+// My goal is  making a short text animation & a train session 
+
 function instructor (){
    
 let textTwo = true
@@ -474,7 +478,7 @@ function instruction(){
 if(text === false)
    { ctx.clearRect(0, 0, game.width, game.height)
     smile.draw();
-    const purpleInter = setInterval(purpleIns.launchP(),3000)
+    purpleIns.launchP()
     tShot(smile,purpleIns) 
     // text
     ctx.font = "24px Arial";
@@ -483,10 +487,13 @@ if(text === false)
     
     ctx.fillText("Can you dodge it?", (game.width)/2,game.height/2+60);
     ctx.fillText("When you are ready to play,", (game.width)/2,game.height/2+90);
-    ctx.fillText("hit ENTER key!", (game.width)/2,game.height/2+120);
+    ctx.fillText("hit ENTER key! ", (game.width)/2,game.height/2+120);
+    ctx.fillText("Just 30 seconds and you win! ", (game.width)/2,game.height/2+150);
+    ctx.fillText("Easy, right? ", (game.width)/2,game.height/2+180);
     
 console.log('ins')
-  }}
+  }
+}
   
   function texting() {
     ctx.font = "24px Arial";
@@ -497,6 +504,7 @@ console.log('ins')
     ctx.fillText("all the balls coming", (game.width)/2,game.height/2+90);
     ctx.fillText("to you. Use ARROW keys", (game.width)/2,game.height/2+120);
     ctx.fillText("to avoid the balls.", (game.width)/2,game.height/2+150);
+    ctx.fillText("(Wait,more texts are coming!)", (game.width)/2,game.height/2+180);
     }   
 
   }
@@ -514,10 +522,10 @@ console.log('ins')
     ctx.fillText("the shots for your practice. ", (game.width)/2,game.height/2+210);
     }   
   }
-//   setInterval(instruction,45)
+// SetTimeout function for a short animation
    texting()
-   setTimeout(textingTwo,4500)
-   setTimeout(()=>{text = false},9000)
+   setTimeout(textingTwo,5000)
+   setTimeout(()=>{text = false},10000)
    const insInter = setInterval(instruction,45)
 }
 /*============ bin ==================*/
