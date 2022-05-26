@@ -51,29 +51,7 @@ html,body {
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
   }
-  #instructor{
-    display: none;
-    border:2px solid rgb(0, 0, 0);
-    border-radius: 20px;
-    /* background-image:url(Image/COURTTWO.jpg) ; */
-    background-size: cover;
-    padding: 0 auto;
-    
-   
-    
-
-    
-    /* transform:rotate(90deg); */
-    /* background-color: rgb(255, 255, 255); */
-    margin: 0px auto;
-    /* min-width:300px;
-    width: 440px;
-    min-height: 600px;
-    height: 800px;s
-     */
-     width: 43vh;
-     height: 75vh;
-  }
+ 
   
 
  
