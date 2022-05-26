@@ -155,8 +155,9 @@ start.addEventListener("click",() => {
     })
 
 
-
+//////////////////////////////////////////////////////////////////
 /*=================== CLASS COLLECTIONS ======================*/
+//////////////////////////////////////////////////////////////////
 
 //===========PLAYER Class ==========//
 class ImagePlayer{
@@ -186,7 +187,12 @@ class ImagePlayer{
 
 }
 
+
 //========OBSTACLE class_Bounce Balls =======//
+
+// ball always comes down from the top and x rocation alters randomly everytime.
+//velocity is an object which has x and y value so I can control the speed and angle of the ball movement.
+
 class Obstacle{
     constructor(x,y,width,height,velocity){
         this.x = x;
@@ -240,7 +246,7 @@ class Obstacle{
     }
 }
 
-//======Another Type of OBSTACLE class_Straight and Curve Balls=========//
+//======Another Type of OBSTACLE class_Straight=========//
 class topSpin{
     constructor(x,y,width,height){
         this.x = x;
@@ -259,9 +265,11 @@ class topSpin{
         if(this.alive){
         ctx.drawImage(ballP,this.x,this.y,this.width,this.height)
        }}
-    //moving automatically
+    
     //Ball goes straight down
     //Ball goes back to the top and restart dropping if it hits bottom
+    //I decided to add curve ball function later so I can change every color of the balls to curve ball.
+
     launch(){
         this.renderRed();
         this.y += 25 
@@ -288,9 +296,11 @@ class topSpin{
 
 /*======== Build Array =======*/
 let allBalls = [];
+
+////////////////////////////////////////////////////////////////////////
 /*=================== Game Player Constructions ======================*/
-// ball always comes down from the top and x rocation alters randomly everytime.
-//velocity is an object which has x and y value so I can control the speed and angle of the ball movement.
+/////////////////////////////////////////////////////////////////////////
+
 
 // construct OBSTACLES
 const yellow = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,{x:rv,y:23})
@@ -303,7 +313,10 @@ const purpleIns = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,o
 const smile = new ImagePlayer((game.width-rs)/2,game.height-rs,rs,rs,rs);
 
 
+////////////////////////////////////////////////////////
 /*============== Keyboard Control ====================*/
+////////////////////////////////////////////////////////
+
 //KEYBOARD INTERACTION LOGIC
 function movementHandler(e) {
     // console.log("the key that was pressed was:" + e.key)
@@ -344,10 +357,11 @@ function movementHandler(e) {
         restarting();
         }
 }
+///////////////////////////////////////////////////////////
+/* ================= functions ======================== */ 
+////////////////////////////////////////////////////////////
 
-/* ================= functions ========================*/ 
-
-//Restarting
+//Restarting//
 function restarting(){
    window.onload()
    reloadP()
@@ -355,15 +369,17 @@ function restarting(){
 //=>Below restarting function, made some bugs. Everything gets faster after restarting.
 //=>I choose to use window.onload() to restart for now.
 
-// function restarting(){
-//        text = null;
-//        clearInterval()
-//        smile.alive = true;
-//        seconds = 0;
-//        gameInit()       
-//          }
+/*
+function restarting(){
+       text = null;
+       clearInterval()
+       smile.alive = true;
+       seconds = 0;
+       gameInit()       
+         }
+*/
 
-//reloading Auto Command 01
+//reloading Auto Command 01//
 //=>found out this after Google Search
 window.onload = function() {
         var reloading = sessionStorage.getItem("reloading");
@@ -379,7 +395,7 @@ function reloadP() {
         document.location.reload();
     }
 
-//instruction Initiation
+//instruction Initiation//
 function instructorInit(){
     sDiv.style.display = 'none'
     game.style.display = "block";
@@ -387,7 +403,7 @@ function instructorInit(){
     instructor();
 }
 
-//Game Initiation
+// Game Initiation 001 //
 function gameInit(){
         text = null;
         clearInterval();
@@ -396,7 +412,9 @@ function gameInit(){
         setInterval(timeCount,1000)
         runGame(); 
     }
-    function gameInit2(){
+
+ // Game Initiation 002 // this will be activated when you restart   
+function gameInit2(){
         gameStart.style.visibility = 'hidden' 
         sDiv.style.display = 'none'
         text = null;
@@ -408,7 +426,7 @@ function gameInit(){
         runGame(); 
     }
     
-//Game Loop
+//Game Loop//
 function gameLoop() {
    
     ctx.clearRect(0, 0, game.width, game.height);
@@ -437,12 +455,7 @@ function gameLoop() {
 }
 
 
-//Detect hit between player and obstacles
-function circleD (p1,p2){
-    let xD = p1.x -p2.x ;
-    let yD = p1.y - p2.y ;
-    return Math.sqrt(Math.pow(xD,2)+Math.pow(yD,2));
-}
+// Detect hit between player and obstacles //
 
 function detectHit(p1,p2) {
 
@@ -460,7 +473,18 @@ function detectHit(p1,p2) {
     } 
     console.log(smile.alive)
 }  
-//curve ball 
+
+
+// ==========   curve ball  ========== //
+
+//Step_01_Distance first
+function circleD (p1,p2){
+    let xD = p1.x -p2.x ;
+    let yD = p1.y - p2.y ;
+    return Math.sqrt(Math.pow(xD,2)+Math.pow(yD,2));
+}
+
+// Step_02_when the ball gets closer to the player, the ball changes its movement
 function tShot(p1,p2){
     let v = 9;
     let detection = 300
@@ -473,7 +497,7 @@ function tShot(p1,p2){
     }
 }
 
-//Game over Text
+// Game over & Vitory Text //
 function gameOver(){  
     if(smile.alive){
         square.style.display = "none"
@@ -505,7 +529,6 @@ function runGame() {
     setInterval(gameLoop,45);
     
 }
-
 
 function timeCount(){
     if(smile.alive)
