@@ -1,10 +1,8 @@
 /*========= DOM ========*/
 const container = document.getElementById('container');
-//create a 'div'tag
+//create a GameOver'div'tag
 const square = document.createElement('div');
     container.append(square);
- //square.style.attribute
-//square.style.border = 'solid 2px black'
     square.style.borderRadius = '10px'
     square.style.backgroundColor = 'white'
     square.style.width = "250px"
@@ -14,8 +12,8 @@ const square = document.createElement('div');
     square.style.left= '50%'
     square.style.transform = 'translate(-50%,-50%)'
     square.style.textAlign = 'center'
-   
-//create a 'text tag'
+    square.style.display = "none" 
+//create a GameOver 'text tag'
 const textTag = document.createElement('h3')
     square.append(textTag)
     textTag.style.padding= '5px 5px 5px 5px';
@@ -39,11 +37,11 @@ sDiv.append(zImage)
 //Create a 'Instruction Start Button'
 const start = document.createElement('div')
     start.setAttribute('id','start')
-    start.innerText = "Start?"
+    start.innerText = "10sec Animated tutorial\n Click here!"
     start.style.margin = '50px auto'
     start.style.width = '300px'
     start.style.border = "solid 2px black"
-    start.style.fontSize = '30px'
+    start.style.fontSize = '28px'
     start.style.padding = '10px 40px 10px 40px'
     start.style.borderRadius = '10px'
     sDiv.append(start)
@@ -51,7 +49,7 @@ const start = document.createElement('div')
 // Create a 'Game Start Button'
 const gameStart = document.createElement('div')
     gameStart.setAttribute('id','gameStart')
-    gameStart.innerText = "Start a game?"
+    gameStart.innerText = "Game Start?"
     gameStart.style.margin = '100px auto'
     gameStart.style.width = '100px'
     gameStart.style.border = "solid 1px black"
@@ -61,11 +59,13 @@ const gameStart = document.createElement('div')
     document.body.append(gameStart)
     gameStart.style.display = 'none' 
 
-//create a 'restart button'
-const restart = document.createElement('button')
-   restart.innerText = "Restart\n(space key)"
-   square.append(restart)
-   square.style.display = "none" 
+// //create a 'restart button'
+// const restart = document.createElement('div')
+// const restartText = document.createElement('p')
+//    restart.innerText = "to restart\n SPACE key"
+//    restart.fontSize = '48px'
+//    square.append(restart)
+  
 
 // create a time count board tags and texts
 const board = document.getElementById('board');
@@ -133,7 +133,7 @@ class ImagePlayer{
         this.y = y;
         this.width = width;
         this.height = height;
-         this.radius = radius;
+        this.radius = radius;
         this.alive = true;
         this.face = true;
        
@@ -255,12 +255,8 @@ class topSpin{
 /*======== Build Array =======*/
 let allBalls = [];
 /*=================== Game Player Constructions ======================*/
-//construct game players here.
-// const you = new Player(game.width/2,game.height-r,r,'grey')
 // ball always comes down from the top and x rocation alters randomly everytime.
 //velocity is an object which has x and y value so I can control the speed and angle of the ball movement.
-
-// let rrv = Math.floor(Math.random()*13+15);
 
 const yellow = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,{x:rv,y:20})
 const orange = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,{x:arrayR[rrv],y:20})
@@ -269,10 +265,6 @@ const purple = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
 const purpleIns = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
 
 const smile = new ImagePlayer((game.width-rs)/2,game.height-rs,rs,rs,rs);
-
-
-
-
 
 
 /*============== Keyboard Control ====================*/
@@ -289,9 +281,10 @@ function movementHandler(e) {
             (smile.y + smile.height) < game.height ? smile.y += rs : null;
             break
         case "ArrowLeft":
-           ( smile.x ) >= -100 ? smile.x -= rs: null;
+           ( smile.x ) >= 0 ? smile.x -= rs: null;
         //    console.log(smile.x)
             break
+       
         case "ArrowRight":
             (smile.x + smile.width ) <= game.width ? smile.x += rs: null;
             // console.log(smile.x)
@@ -305,11 +298,8 @@ function movementHandler(e) {
                 instructorInit()
                 gameStart.style.display = 'block' 
             })
-            // text = null;
-            // clearInterval();
             gameInit()
-            // gameInit();
-            // console.log('enter')
+           
             break
                  
     }    
@@ -323,47 +313,44 @@ function restarting(){
    reloadP()
     }
 // function restarting(){
+//        text = null;
 //        clearInterval()
 //        smile.alive = true;
 //        seconds = 0;
-//        gameInit()
-       
+//        gameInit()       
 //          }
-//reloading
+
+//reloading Auto Command
     window.onload = function() {
         var reloading = sessionStorage.getItem("reloading");
         if (reloading) {
             sessionStorage.removeItem("reloading");
-           
             gameInit2();
-           
         }
     }
-    
+//reloading   
     function reloadP() {
         sessionStorage.setItem("reloading", "true");
         document.location.reload();
     }
 //instruction Initiation
 function instructorInit(){
-  
     sDiv.style.display = 'none'
-    
     game.style.display = "block";
+    
     instructor();
 }
-//Game Initiation//
+//Game Initiation
 function gameInit(){
-
         text = null;
         clearInterval();
-       
         board.style.display = "block" 
-        
-       setInterval(timeCount,1000)
+        gameStart.style.visibility = 'hidden' 
+        setInterval(timeCount,1000)
         runGame(); 
     }
     function gameInit2(){
+        gameStart.style.visibility = 'hidden' 
         sDiv.style.display = 'none'
         text = null;
         clearInterval();
@@ -443,19 +430,23 @@ function gameOver(){
     if(smile.alive){
         square.style.display = "none"
     }else{
-        textTag.innerText = "Oh...No...\n GameOver!"
+        textTag.innerText = "Oh...No...TT\n GameOver!\n \nto restart\n hit SPACE key"
+        textTag.style.fontSize = '28px'
+        textTag.style.color = "white"
         square.style.display = "block"
+        square.style.removeProperty("background-color")
     }
    
 }
 function victory(){ 
    
-    if(seconds === 30){
-        textTag.innerText = "You Won!"
+    if(seconds === 45){
+        textTag.innerText = "You Won!\n but don't stop yet!"
+        textTag.style.fontSize = '28px'
+        textTag.style.color = "white"
         square.style.display = "block"
         square.style.removeProperty("background-color")
-    }else if(seconds >= 33){
-        
+    }else if(seconds >= 48|| smile.alive === true){
         square.style.display = "none"
     }
    
@@ -475,7 +466,7 @@ function timeCount(){
    
 }
 let text = true
-/*=========== Instructing Sequence ==========*/
+/*=========== Instructing Sequence Function ==========*/
 function instructor (){
    
 let textTwo = true
@@ -486,46 +477,45 @@ if(text === false)
     const purpleInter = setInterval(purpleIns.launchP(),3000)
     tShot(smile,purpleIns) 
     // text
-    ctx.font = "20px Arial";
+    ctx.font = "24px Arial";
     ctx.textAlign = "center"
     ctx.fillStyle = 'white'
     
     ctx.fillText("Can you dodge it?", (game.width)/2,game.height/2+60);
-    ctx.fillText("When you are ready,", (game.width)/2,game.height/2+80);
-    ctx.fillText("hit ENTER key!", (game.width)/2,game.height/2+100);
+    ctx.fillText("When you are ready to play,", (game.width)/2,game.height/2+90);
+    ctx.fillText("hit ENTER key!", (game.width)/2,game.height/2+120);
     
 console.log('ins')
   }}
   
   function texting() {
-    ctx.font = "20px Arial";
+    ctx.font = "24px Arial";
     ctx.textAlign = "center"
     ctx.fillStyle = 'white'
     if(text === true){
-    ctx.fillText("You have to avoid", (game.width)/2,game.height/2+60);
-    ctx.fillText("all the balls, coming", (game.width)/2,game.height/2+80);
-    ctx.fillText("to you. Use arrow keys", (game.width)/2,game.height/2+100);
-    ctx.fillText("to avoid the balls.", (game.width)/2,game.height/2+120);
+    ctx.fillText("You have to dodge", (game.width)/2,game.height/2+60);
+    ctx.fillText("all the balls coming", (game.width)/2,game.height/2+90);
+    ctx.fillText("to you. Use ARROW keys", (game.width)/2,game.height/2+120);
+    ctx.fillText("to avoid the balls.", (game.width)/2,game.height/2+150);
     }   
 
   }
   function textingTwo() {
     ctx.clearRect(0, 0, game.width, game.height)
-    ctx.font = "20px Arial";
+    ctx.font = "24px Arial";
     ctx.textAlign = "center"
     ctx.fillStyle = 'white'
     if(textTwo === true){
     ctx.fillText("After 15 seconds,", (game.width)/2,game.height/2+60);
-    ctx.fillText("Zverev is going to shoot ", (game.width)/2,game.height/2+80);
-    ctx.fillText("you Magic Purple Shots!", (game.width)/2,game.height/2+100);
-    ctx.fillText("Be careful!.", (game.width)/2,game.height/2+120);
-    ctx.fillText("I'll show you ", (game.width)/2,game.height/2+140);
-    ctx.fillText("what it is. ", (game.width)/2,game.height/2+160);
+    ctx.fillText("Zverev is going to shoot ", (game.width)/2,game.height/2+90);
+    ctx.fillText("you MAGIC PURPLE Shots!", (game.width)/2,game.height/2+120);
+    ctx.fillText("Be careful those spin shots!.", (game.width)/2,game.height/2+150);
+    ctx.fillText("I'll show you ", (game.width)/2,game.height/2+180);
+    ctx.fillText("the shots for your practice. ", (game.width)/2,game.height/2+210);
     }   
   }
 //   setInterval(instruction,45)
    texting()
-   
    setTimeout(textingTwo,4500)
    setTimeout(()=>{text = false},9000)
    const insInter = setInterval(instruction,45)
