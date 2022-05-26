@@ -45,6 +45,19 @@ html,body {
     filter: grayscale(100%);
     
   }
+  #start{
+    font-family: 'Russo One', sans-serif;
+    background-color: rgb(206, 206, 206);
+    color: rgb(0, 0, 0);
+
+  }
+  #textTag{
+    font-family: 'Russo One', sans-serif;
+  }
+  #time{
+    font-family: 'Russo One', sans-serif;
+    font-size: 24px;
+  }
 
 /* ANIMATION 001*/
  .cell {

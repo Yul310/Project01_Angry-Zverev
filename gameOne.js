@@ -16,10 +16,11 @@ const square = document.createElement('div');
     square.style.display = "none" 
 //create a GameOver 'text tag'
 const textTag = document.createElement('h3')
+    textTag.setAttribute('id','textTag')
     square.append(textTag)
     textTag.style.padding= '5px 5px 5px 5px';
 
-//Create a div for the Staring Page
+//Create a div for the Starting Page
 const sDiv = document.createElement('div')
     sDiv.setAttribute('id','sDiv');
     document.body.append(sDiv);
@@ -33,6 +34,7 @@ const zImage = document.createElement('IMG');
     zImage.style.marginTop = '15vh'
     zImage.style.width = "40vh"
     zImage.style.height = "40vh"
+    zImage.style.border = "solid 4px black"
     sDiv.append(zImage)  
 
 //Create a 'Instruction Start Button'
@@ -40,29 +42,18 @@ const start = document.createElement('div')
     start.setAttribute('id','start')
     start.innerText = "10sec Animated tutorial\n Click here!"
     start.style.margin = '50px auto'
-    start.style.width = '300px'
-    start.style.border = "solid 2px black"
+    start.style.width = '30vh'
+    start.style.border = "solid 4px black"
     start.style.fontSize = '28px'
-    start.style.padding = '10px 40px 10px 40px'
+    start.style.padding = '20px 40px 20px 40px'
     start.style.borderRadius = '10px'
     sDiv.append(start)
-
-// Create a 'Game Start Button' This is going to be hidden
-// const gameStart = document.createElement('div')
-//     gameStart.setAttribute('id','gameStart')
-//     gameStart.innerText = "Game Start?"
-//     gameStart.style.margin = '100px auto'
-//     gameStart.style.width = '100px'
-//     gameStart.style.border = "solid 1px black"
-//     gameStart.style.fontSize = '12px'
-//     gameStart.style.padding = '10px 40px 10px 40px' 
-//     gameStart.style.display = 'none' 
-//     document.body.append(gameStart)
 
 
 // create a time count board tags and texts
 const board = document.getElementById('board');
    let secondText = document.createElement('h3');
+   secondText.setAttribute('id','time')
    board.append(secondText);
    let seconds = 0;
    secondText.innerText = "Time\n"+ seconds;
