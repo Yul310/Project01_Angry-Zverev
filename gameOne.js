@@ -91,6 +91,26 @@ const board = document.getElementById('board');
   ballP.src ="Image/ballpurple.png";
   ballO = new Image();
   ballO.src ="Image/ball orange.png";
+  lineBall = new Image();
+  lineBall = "Image/ballLine.png"
+  /* ========= css animation preparation ======*/
+  let cellCollection = document.createElement('div');
+  cellCollection.setAttribute('id','cellCollection')
+  document.body.append(cellCollection);
+  
+
+  function cellMaker(cellCount){
+      for(i=0;i <= cellCount;i++){
+  const cell = document.createElement('img');
+  cell.setAttribute('class','cell')
+  cell.setAttribute('id',`img${i}`);
+  cell.src = 'Image/ballYellow.png'
+  cell.style.width = '30px'
+  cell.style.height = '30px'
+  cellCollection.append(cell)
+  }
+}
+cellMaker(1)
 
 
 /*========= VARIABLES ========*/
@@ -114,6 +134,8 @@ document.addEventListener("keydown", movementHandler)
 
 start.addEventListener("click",() => {
     instructorInit()
+    console.log("work")
+    cellCollection.style.display = 'none'
     gameStart.style.display = 'block' 
     })
 
@@ -488,7 +510,7 @@ if(text === false)
     ctx.fillText("Can you dodge it?", (game.width)/2,game.height/2+60);
     ctx.fillText("When you are ready to play,", (game.width)/2,game.height/2+90);
     ctx.fillText("hit ENTER key! ", (game.width)/2,game.height/2+120);
-    ctx.fillText("Just 30 seconds and you win! ", (game.width)/2,game.height/2+150);
+    ctx.fillText("Just 1 minute and you win! ", (game.width)/2,game.height/2+150);
     ctx.fillText("Easy, right? ", (game.width)/2,game.height/2+180);
     
 console.log('ins')
