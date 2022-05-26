@@ -1,4 +1,4 @@
-/*========= DOM ========*/
+/*========= DOM Manipulation========*/
 const container = document.getElementById('container');
 //create a GameOver'div'tag
 const square = document.createElement('div');
@@ -26,13 +26,13 @@ const sDiv = document.createElement('div')
 
 //Create a 'Starting Page GIF'
 const zImage = document.createElement('IMG');
-zImage.setAttribute('id','zImage')
-zImage.src = 'https://c.tenor.com/Fc22vaevNrcAAAAd/alexander-zverev-temper-tantrum.gif'
-zImage.style.borderRadius = '50px'
-zImage.style.marginTop = '15vh'
-zImage.style.width = "40vh"
-zImage.style.height = "40vh"
-sDiv.append(zImage)  
+    zImage.setAttribute('id','zImage')
+    zImage.src = 'https://c.tenor.com/Fc22vaevNrcAAAAd/alexander-zverev-temper-tantrum.gif'
+    zImage.style.borderRadius = '50px'
+    zImage.style.marginTop = '15vh'
+    zImage.style.width = "40vh"
+    zImage.style.height = "40vh"
+    sDiv.append(zImage)  
 
 //Create a 'Instruction Start Button'
 const start = document.createElement('div')
@@ -57,13 +57,7 @@ const gameStart = document.createElement('div')
     gameStart.style.padding = '10px 40px 10px 40px' 
     gameStart.style.display = 'none' 
     document.body.append(gameStart)
-// //create a 'restart button'
-// const restart = document.createElement('div')
-// const restartText = document.createElement('p')
-//    restart.innerText = "to restart\n SPACE key"
-//    restart.fontSize = '48px'
-//    square.append(restart)
-  
+
 
 // create a time count board tags and texts
 const board = document.getElementById('board');
@@ -75,7 +69,7 @@ const board = document.getElementById('board');
 
 
    
-/* ======== create image tags ========= */
+/* ======== create Image Tags & Srcs ========= */
 
   imgP = new Image();
   imgP.src ="Image/smileTwo.png";
@@ -93,7 +87,9 @@ const board = document.getElementById('board');
   ballO.src ="Image/ball orange.png";
   lineBall = new Image();
   lineBall = "Image/ballLine.png"
-  /* ========= css animation preparation ======*/
+
+
+  /* ========= CSS Animation Preparation // This will be applied to the Starting page ======*/
   let cellCollection = document.createElement('div');
   cellCollection.setAttribute('id','cellCollection')
   document.body.append(cellCollection);
@@ -113,6 +109,21 @@ const board = document.getElementById('board');
 cellMaker(1)
 
 
+function cell2Maker(cellCount){
+    for(i=0;i <= cellCount;i++){
+const cell2 = document.createElement('img');
+cell2.setAttribute('class','cell')
+cell2.setAttribute('id',`img${i}`);
+cell2.src = 'Image/ballYellow.png'
+cell2.style.width = '30px'
+cell2.style.height = '30px'
+cellCollection.append(cell2)
+}
+}
+cell2Maker(1)
+
+
+
 /*========= VARIABLES ========*/
 let game = document.querySelector("#game");
 
@@ -129,6 +140,10 @@ let ctx = game.getContext("2d");
 game.setAttribute("height", getComputedStyle(game)["height"]);
 game.setAttribute("width", getComputedStyle(game)["width"]);
 
+
+
+/*========= EVENT LISTENERS ========*/
+
 //controler
 document.addEventListener("keydown", movementHandler)
 
@@ -139,12 +154,11 @@ start.addEventListener("click",() => {
     gameStart.style.display = 'block' 
     })
 
-// gameStart.addEventListener("click",() => {
-  
-//     gameInit()})
 
-/*=================== class Collections======================*/
 
+/*=================== CLASS COLLECTIONS ======================*/
+
+//===========PLAYER Class ==========//
 class ImagePlayer{
     constructor(x,y,width,height,radius){
         this.x = x;
@@ -156,7 +170,7 @@ class ImagePlayer{
         this.face = true;
        
     }
-   
+    //=> I've added an altering face if statement on draw function. 
     draw(){ 
         if(this.face === true ){
      ctx.drawImage(imgP,this.x,this.y,this.width,this.height) 
@@ -172,7 +186,7 @@ class ImagePlayer{
 
 }
 
-//Build a obstacle class
+//========OBSTACLE class_Bounce Balls =======//
 class Obstacle{
     constructor(x,y,width,height,velocity){
         this.x = x;
@@ -182,8 +196,8 @@ class Obstacle{
         this.velocity = velocity;
         this.alive = true;
     }
-    //adding obstacle's function: render 
 
+    //types of render method decides the color of the ball.
     render(){
         if(this.alive){
         ctx.drawImage(ballY,this.x,this.y,this.width,this.height)
@@ -194,17 +208,19 @@ class Obstacle{
         ctx.drawImage(ballO,this.x,this.y,this.width,this.height)
        }
     }
-    //Ball bounce if it hits a wall
-    //Ball goes back to the top and restart dropping if it hits bottom
+
+    //Each ball moves differently by using launch function.
+    //render function is calledback in launch function for a easier use.
     launchYellow(){
         this.render();
         this.x += this.velocity.x;
         this.y += this.velocity.y;
+        //Ball bounce if it hits a wall
         if(this.x + this.width > game.width || this.x <= 0){
           this.velocity.x = -1*this.velocity.x  
+           //Ball goes back to the top and restart dropping if it hits bottom
         }else if(this.y - this.width > game.height){
             this.y = 0;
-            // this.velocity.x = Math.floor(Math.random()*9-4)
             this.velocity.x =rv
             this.y += this.velocity.y;
         }
@@ -224,7 +240,7 @@ class Obstacle{
     }
 }
 
-//Build another type of obstacle class
+//======Another Type of OBSTACLE class_Straight and Curve Balls=========//
 class topSpin{
     constructor(x,y,width,height){
         this.x = x;
@@ -233,8 +249,8 @@ class topSpin{
         this.height = height;
         this.alive = true;
     }
-    //adding obstacle's function: render 
-
+    
+    //types of render method decides the color of the ball.
     renderRed(){
         if(this.alive){
         ctx.drawImage(ballR,this.x,this.y,this.width,this.height)
@@ -276,12 +292,14 @@ let allBalls = [];
 // ball always comes down from the top and x rocation alters randomly everytime.
 //velocity is an object which has x and y value so I can control the speed and angle of the ball movement.
 
+// construct OBSTACLES
 const yellow = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,{x:rv,y:23})
 const orange = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,{x:arrayR[rrv],y:20})
 const red = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
 const purple = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
+//=> bellow purpleIns is only for the instruction page
 const purpleIns = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
-
+//Construct PLAYER
 const smile = new ImagePlayer((game.width-rs)/2,game.height-rs,rs,rs,rs);
 
 
@@ -320,10 +338,11 @@ function movementHandler(e) {
            
             break
                  
-    }    
-    if (e.key ===' ' && smile.alive === false){
+         } 
+         //by using below condition, RESTARTING function is activated only when player is not alive.   
+        if (e.key ===' ' && smile.alive === false){
         restarting();
-    }
+        }
 }
 
 /* ================= functions ========================*/ 
@@ -332,7 +351,10 @@ function movementHandler(e) {
 function restarting(){
    window.onload()
    reloadP()
-    }
+}
+//=>Below restarting function, made some bugs. Everything gets faster after restarting.
+//=>I choose to use window.onload() to restart for now.
+
 // function restarting(){
 //        text = null;
 //        clearInterval()
@@ -341,19 +363,22 @@ function restarting(){
 //        gameInit()       
 //          }
 
-//reloading Auto Command
-    window.onload = function() {
+//reloading Auto Command 01
+//=>found out this after Google Search
+window.onload = function() {
         var reloading = sessionStorage.getItem("reloading");
         if (reloading) {
             sessionStorage.removeItem("reloading");
             gameInit2();
         }
     }
-//reloading   
-    function reloadP() {
+
+//reloading  Auto Command 02
+function reloadP() {
         sessionStorage.setItem("reloading", "true");
         document.location.reload();
     }
+
 //instruction Initiation
 function instructorInit(){
     sDiv.style.display = 'none'
@@ -361,6 +386,7 @@ function instructorInit(){
     
     instructor();
 }
+
 //Game Initiation
 function gameInit(){
         text = null;
@@ -446,9 +472,9 @@ function tShot(p1,p2){
         if(p2.x <= 0){ v = -1*v}
     }
 }
+
 //Game over Text
-function gameOver(){
-   
+function gameOver(){  
     if(smile.alive){
         square.style.display = "none"
     }
@@ -458,8 +484,7 @@ function gameOver(){
         textTag.style.color = "white"
         square.style.display = "block"
         square.style.removeProperty("background-color")
-    }
-   
+    }  
 }
 function victory(){ 
    
@@ -489,6 +514,7 @@ function timeCount(){
    
 }
 let text = true
+
 
 /*=========== Instructing Tutoral Function ==========*/
 // My goal is  making a short text animation & a train session 
@@ -546,10 +572,14 @@ console.log('ins')
     ctx.fillText("the shots for your practice. ", (game.width)/2,game.height/2+210);
     }   
   }
-// SetTimeout function for a short animation
+
+  // SetTimeout function for a short animation
    texting()
    setTimeout(textingTwo,5000)
    setTimeout(()=>{text = false},10000)
    const insInter = setInterval(instruction,45)
-}
+   }
+
+
+
 /*============ bin ==================*/
