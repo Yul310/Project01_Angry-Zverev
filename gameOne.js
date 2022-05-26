@@ -224,8 +224,9 @@ class Obstacle{
         //Ball bounce if it hits a wall
         if(this.x + this.width > game.width || this.x <= 0){
           this.velocity.x = -1*this.velocity.x  
-           //Ball goes back to the top and restart dropping if it hits bottom
+        //Ball goes back to the top and restart dropping if it hits bottom
         }else if(this.y - this.width > game.height){
+            this.x = Math.floor(Math.random()*(game.width-30));
             this.y = 0;
             this.velocity.x =rv
             this.y += this.velocity.y;
@@ -239,6 +240,7 @@ class Obstacle{
         if(this.x + this.width > game.width || this.x <= 0){
           this.velocity.x = -1*this.velocity.x  
         }else if(this.y - this.width > game.height){
+            this.x = Math.floor(Math.random()*(game.width-30));
             this.y = -40;
             this.velocity.x = Math.floor(Math.random()*10+10)
             this.y += this.velocity.y;
