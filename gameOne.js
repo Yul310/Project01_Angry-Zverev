@@ -113,6 +113,20 @@ cellCollection.append(cell2)
 }
 cell2Maker(2)
 
+function cell3Maker(cellCount){
+    for(i=0;i <= cellCount;i++){
+const cell2 = document.createElement('img');
+cell2.setAttribute('class','cell3')
+cell2.setAttribute('id',`imgP${i}`);
+cell2.src = 'Image/Pow_one.webp'
+cell2.style.width = '300px'
+cell2.style.height = '300px'
+cellCollection.append(cell2)
+}
+}
+cell3Maker(3)
+
+
 
 
 /*========= VARIABLES ========*/
