@@ -586,7 +586,7 @@ console.log('ins')
     ctx.fillText("all the balls coming", (game.width)/2,game.height/2+90);
     ctx.fillText("to you. Use ARROW keys", (game.width)/2,game.height/2+120);
     ctx.fillText("to avoid the balls.", (game.width)/2,game.height/2+150);
-    ctx.fillText("(Wait,more texts are coming!)", (game.width)/2,game.height/2+180);
+    ctx.fillText("(Wait! More tutorials are coming!)", (game.width)/2,game.height/2+180);
     }   
 
   }
