@@ -20,6 +20,8 @@ html,body {
     left: 50%;
     transform: translate(-50%,-50%);
     margin: 0 auto;
+   
+
   }
   
  
@@ -31,27 +33,45 @@ html,body {
     background-image:url(Image/COURTONE.jpg) ;
     background-size: cover;
     padding: 0 auto;
-    
-   
-    
-
-    
-    /* transform:rotate(90deg); */
-    /* background-color: rgb(255, 255, 255); */
     margin: 0px auto;
-    /* min-width:300px;
-    width: 440px;
-    min-height: 600px;
-    height: 800px;s
-     */
      width: 43vh;
      height: 75vh;
   }
+
   #zImage{
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
+    
   }
- 
+
+ .cell {
+    position: absolute; 
+    display: block;
+    bottom: -500px;   
+    animation: opening 2s infinite;
+    animation: opening 2s 4;
+} 
+
+#img0 {
+  left: 5%;
+  animation-delay: 5s;
+}
+#img1 {
+  left: 40%;
+  animation-delay: 2s;
+}
+
+
+  @keyframes opening {
+    0% {
+        transform: translateY(500); 
+       
+    }
+    100% {
+        transform: translateY(-1100px) translateX(-950px) rotate(2000deg) scale(500%);
+      
+    }
+}
   
 
  
