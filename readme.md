@@ -7,13 +7,13 @@ Alexander Zverev who is current world ranking no.3 is really mad after losing a 
 https://www.youtube.com/watch?v=MvDFQFYZkcQ
 
 ## User Story
-If I open the page, you can see simple animation and you can proceed to the tutorial page by clicking a button.<br>
-Simple tutorial animation is going to be played and I can test how I can move the player with ARROW keys and how I can make the player dodge the balls.<br>
-If I hit ENTER key, the game is going to be started. <br>
-The game is going to be more difficult as I am playing. <br>
-After certain time, Zverev is going to hit curve balls.<br>
-If I can survive for 30 seconds, I win but I can keep playing for the record.(Time)<br>
-If I got a hit, the gameover message is going to be displayed and I can start the game again
+1. If I open the page, you can see simple animation and you can proceed to the tutorial page by clicking a button.<br>
+2. Simple tutorial animation is going to be played and I can test how I can move the player with ARROW keys and how I can make the player dodge the balls.<br>
+3. If I hit ENTER key, the game is going to be started. <br>
+4. The game is going to be more difficult as I am playing. <br>
+5. After certain time, Zverev is going to hit curve balls.<br>
+6. If I can survive for 30 seconds, I win but I can keep playing for the record.(Time)<br>
+7. If I got a hit, the gameover message is going to be displayed and I can start the game again
 by hitting SPACE key.
 
 
