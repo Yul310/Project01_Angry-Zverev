@@ -12,6 +12,8 @@ html,body {
     
   }
   h1{
+    font-size: 50px;
+    font-family: 'Blaka', cursive;
     margin: 30px auto;
   }
 
@@ -44,6 +46,7 @@ html,body {
     
   }
 
+/* ANIMATION 001*/
  .cell {
     position: absolute; 
     display: block;
@@ -53,11 +56,15 @@ html,body {
 } 
 
 #img0 {
-  left: 5%;
+  left: 33%;
   animation-delay: 5s;
 }
 #img1 {
-  left: 40%;
+  left: 45%;
+  animation-delay: 2s;
+}
+#img2 {
+  left: 15%;
   animation-delay: 2s;
 }
 
@@ -68,7 +75,41 @@ html,body {
        
     }
     100% {
-        transform: translateY(-1100px) translateX(-950px) rotate(2000deg) scale(500%);
+        transform: translateY(-1300px) translateX(-500px) rotate(2000deg) scale(500%);
+      
+    }
+}
+
+  /* ANIMATION 002*/
+ .cell2 {
+    position: absolute; 
+    display: block;
+    bottom: -500px;   
+    animation: opening2 2s infinite;
+    /* animation: opening 2s 4; */
+} 
+
+#imgT0 {
+  right: 35%;
+  animation-delay: 5s;
+}
+#imgT1 {
+  right: 47%;
+  animation-delay: 2s;
+}
+#imgT2 {
+  right: 15%;
+  animation-delay: 2s;
+}
+
+
+  @keyframes opening2 {
+    0% {
+       transform: translateY(500); 
+       
+    }
+    100% {
+      transform: translateY(-1500px) translateX(450px) rotate(2000deg) scale(800%);
       
     }
 }

@@ -1,4 +1,5 @@
 /*========= DOM Manipulation========*/
+
 const container = document.getElementById('container');
 //create a GameOver'div'tag
 const square = document.createElement('div');
@@ -46,17 +47,17 @@ const start = document.createElement('div')
     start.style.borderRadius = '10px'
     sDiv.append(start)
 
-// Create a 'Game Start Button'
-const gameStart = document.createElement('div')
-    gameStart.setAttribute('id','gameStart')
-    gameStart.innerText = "Game Start?"
-    gameStart.style.margin = '100px auto'
-    gameStart.style.width = '100px'
-    gameStart.style.border = "solid 1px black"
-    gameStart.style.fontSize = '12px'
-    gameStart.style.padding = '10px 40px 10px 40px' 
-    gameStart.style.display = 'none' 
-    document.body.append(gameStart)
+// Create a 'Game Start Button' This is going to be hidden
+// const gameStart = document.createElement('div')
+//     gameStart.setAttribute('id','gameStart')
+//     gameStart.innerText = "Game Start?"
+//     gameStart.style.margin = '100px auto'
+//     gameStart.style.width = '100px'
+//     gameStart.style.border = "solid 1px black"
+//     gameStart.style.fontSize = '12px'
+//     gameStart.style.padding = '10px 40px 10px 40px' 
+//     gameStart.style.display = 'none' 
+//     document.body.append(gameStart)
 
 
 // create a time count board tags and texts
@@ -85,8 +86,7 @@ const board = document.getElementById('board');
   ballP.src ="Image/ballpurple.png";
   ballO = new Image();
   ballO.src ="Image/ball orange.png";
-  lineBall = new Image();
-  lineBall = "Image/ballLine.png"
+  
 
 
   /* ========= CSS Animation Preparation // This will be applied to the Starting page ======*/
@@ -100,27 +100,27 @@ const board = document.getElementById('board');
   const cell = document.createElement('img');
   cell.setAttribute('class','cell')
   cell.setAttribute('id',`img${i}`);
-  cell.src = 'Image/ballYellow.png'
-  cell.style.width = '30px'
-  cell.style.height = '30px'
+  cell.src = 'Image/ballFour.png'
+  cell.style.width = '20px'
+  cell.style.height = '20px'
   cellCollection.append(cell)
   }
 }
-cellMaker(1)
+cellMaker(2)
 
 
 function cell2Maker(cellCount){
     for(i=0;i <= cellCount;i++){
 const cell2 = document.createElement('img');
-cell2.setAttribute('class','cell')
-cell2.setAttribute('id',`img${i}`);
-cell2.src = 'Image/ballYellow.png'
-cell2.style.width = '30px'
-cell2.style.height = '30px'
+cell2.setAttribute('class','cell2')
+cell2.setAttribute('id',`imgT${i}`);
+cell2.src = 'Image/ballFour.png'
+cell2.style.width = '20px'
+cell2.style.height = '20px'
 cellCollection.append(cell2)
 }
 }
-cell2Maker(1)
+cell2Maker(2)
 
 
 
@@ -151,7 +151,7 @@ start.addEventListener("click",() => {
     instructorInit()
     console.log("work")
     cellCollection.style.display = 'none'
-    gameStart.style.display = 'block' 
+    // gameStart.style.display = 'block' 
     })
 
 
@@ -345,7 +345,7 @@ function movementHandler(e) {
         case 'Enter' :
             start.removeEventListener("click",() => {
                 instructorInit()
-                gameStart.style.display = 'block' 
+                // gameStart.style.display = 'block' 
             })
             gameInit()
            
@@ -368,8 +368,9 @@ function restarting(){
 }
 //=>Below restarting function, made some bugs. Everything gets faster after restarting.
 //=>I choose to use window.onload() to restart for now.
+//=>I am going to re-visit this one in near future.
 
-/*
+/* **** REVISIT ITEM ***** 
 function restarting(){
        text = null;
        clearInterval()
@@ -408,14 +409,15 @@ function gameInit(){
         text = null;
         clearInterval();
         board.style.display = "block" 
-        gameStart.style.visibility = 'hidden' 
+        // gameStart.style.visibility = 'hidden' 
         setInterval(timeCount,1000)
         runGame(); 
     }
 
  // Game Initiation 002 // this will be activated when you restart   
 function gameInit2(){
-        gameStart.style.visibility = 'hidden' 
+        cellCollection.style.display = 'none'
+        // gameStart.style.visibility = 'hidden' 
         sDiv.style.display = 'none'
         text = null;
         clearInterval();
