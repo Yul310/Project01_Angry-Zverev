@@ -69,12 +69,16 @@ const board = document.getElementById('board');
   imgP2.src ="Image/smile.png";
   imgP3 = new Image();
   imgP3.src ="Image/angry.png";
+  imgZ = new Image();
+  imgZ.src = 'Image/angryDevil_updated.png'
   ballY = new Image();
   ballY.src ="Image/ballYellow.png";
   ballR = new Image();
   ballR.src ="Image/ballRed.png";
   ballP = new Image();
   ballP.src ="Image/ballpurple.png";
+  ballB = new Image();
+  ballB.src ="Image/ballBlue.png";
   ballO = new Image();
   ballO.src ="Image/ball orange.png";
   
@@ -118,7 +122,7 @@ function cell3Maker(cellCount){
 const cell2 = document.createElement('img');
 cell2.setAttribute('class','cell3')
 cell2.setAttribute('id',`imgP${i}`);
-cell2.src = 'Image/Pow_one.webp'
+cell2.src = 'Image/pow.png'
 cell2.style.width = '300px'
 cell2.style.height = '300px'
 cellCollection.append(cell2)
@@ -132,12 +136,13 @@ cell3Maker(3)
 /*========= VARIABLES ========*/
 let game = document.querySelector("#game");
 
-let zverev;
-let r = 20;//!!this variable is deciding player circle's radius & movement speed!!
+
+// let r = 20;
 let rs = 40;
 let os =30;
 let rv = Math.floor(Math.random()*10-4);
 let rrv = Math.floor(Math.random()*8);
+let rrvS = Math.floor(Math.random()*12)+6;
 let arrayR = [20,-20,-5,5,-10,35,-50,40]
 // this creates a 2 dimensional canvas => 
 let ctx = game.getContext("2d"); 
@@ -166,12 +171,12 @@ start.addEventListener("click",() => {
 
 //===========PLAYER Class ==========//
 class ImagePlayer{
-    constructor(x,y,width,height,radius){
+    constructor(x,y,width,height){
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.radius = radius;
+        
         this.alive = true;
         this.face = true;
        
@@ -189,6 +194,12 @@ class ImagePlayer{
             setTimeout(() =>{this.face =true},300)
         }
         }
+
+    drawZ(){ 
+           
+         ctx.drawImage(imgZ,this.x,this.y,this.width,this.height) 
+        //  this.x = Math.floor(Math.random()*(game.width-30))
+            }
 
 }
 
@@ -217,6 +228,7 @@ class Obstacle{
     renderOrange(){
         if(this.alive){
         ctx.drawImage(ballO,this.x,this.y,this.width,this.height)
+        
        }
     }
 
@@ -272,6 +284,10 @@ class topSpin{
         if(this.alive){
         ctx.drawImage(ballP,this.x,this.y,this.width,this.height)
        }}
+    renderBlue(){
+        if(this.alive){
+        ctx.drawImage(ballB,this.x,this.y,this.width,this.height)
+       }}
     
     //Ball goes straight down
     //Ball goes back to the top and restart dropping if it hits bottom
@@ -297,7 +313,19 @@ class topSpin{
             this.x = Math.floor(Math.random()*(game.width-rs)/1.5)
             this.y += 30; 
         } }
-    
+    launchZ(){
+            this.renderBlue();
+            this.y += 25 
+            this.x += rrvS
+            if(this.y - this.width > game.height){
+               setTimeout(()=>{ 
+                //adding a little delay 
+                this.y = -60;
+                this.x = Math.floor(Math.random()*(game.width-30))
+                this.y += 23;
+            },100)
+            } 
+        }
 
 }
 
@@ -314,10 +342,12 @@ const yellow = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,
 const orange = new Obstacle(Math.floor(Math.random()*(game.width-30)),-30,os,os,{x:arrayR[rrv],y:20})
 const red = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
 const purple = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
+const blue = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
 //=> bellow purpleIns is only for the instruction page
 const purpleIns = new topSpin(Math.floor(Math.random()*(game.width-30)),-30,os,os)
 //Construct PLAYER
-const smile = new ImagePlayer((game.width-rs)/2,game.height-rs,rs,rs,rs);
+const smile = new ImagePlayer((game.width-rs)/2,game.height-rs,rs,rs);
+const zAngry= new ImagePlayer((game.width-70)/2,40,70,70);
 
 
 ////////////////////////////////////////////////////////
@@ -331,18 +361,18 @@ function movementHandler(e) {
 
     switch (e.key) {
         case "ArrowUp":
-            smile.y > 0 ? smile.y -= rs: null;
+            smile.y > 0 ? smile.y -= (10+rs): null;
             break
         case "ArrowDown":
-            (smile.y + smile.height) < game.height ? smile.y += rs : null;
+            (smile.y + smile.height) < game.height ? smile.y += (10+rs): null;
             break
         case "ArrowLeft":
-           ( smile.x ) >= 0 ? smile.x -= rs: null;
+           ( smile.x ) >= -100 ? smile.x -= (10+rs): null;
         //    console.log(smile.x)
             break
        
         case "ArrowRight":
-            (smile.x + smile.width ) <= game.width ? smile.x += rs: null;
+            (smile.x + smile.width ) <= game.width ? smile.x += (10+rs): null;
             // console.log(smile.x)
             break
         // case ' '  :
@@ -360,7 +390,7 @@ function movementHandler(e) {
                  
          } 
          //by using below condition, RESTARTING function is activated only when player is not alive.   
-        if (e.key ===' ' && smile.alive === false){
+        if (e.key ===' ' /*&& smile.alive === false*/){
         restarting();
         }
 }
@@ -441,7 +471,7 @@ function gameLoop() {
     ctx.clearRect(0, 0, game.width, game.height);
     
     if(smile.alive){    
-    
+    zAngry.drawZ();
     yellow.launchYellow();
     red.launch()
     detectHit(smile,yellow);  
@@ -452,11 +482,20 @@ function gameLoop() {
         detectHit(smile,orange);
     }
     if(seconds >= 15){
+        
         purple.launchP();
         tShot(smile,purple) 
-        detectHit(smile,purple);
+        detectHit(smile,purple)}
+    if(seconds >= 45){
+        
+        blue.launchZ()
+        tShotSuper(smile,blue) 
+        detectHit(smile,blue)}
     }
-    }else{ctx.clearRect(0, 0, game.width, game.height)}
+    
+    
+    
+    else{ctx.clearRect(0, 0, game.width, game.height)}
     
     smile.draw();
     victory(); 
@@ -499,10 +538,31 @@ function tShot(p1,p2){
     let detection = 300
     if(circleD(p1,p2)<detection&& p1.x > p2.x ){
         p2.x += v; 
-        if(p2.x >= game.width){ v = -1*v}
+        // if(p2.x >= game.width){ v = -1*v}
     }else if(circleD(p1,p2)<detection && p2.x > p1.x){
         p2.x -= v;
-        if(p2.x <= 0){ v = -1*v}
+        // if(p2.x <= 0){ v = -1*v}
+    }else if (p2.x <= 0){ 
+        v = -1*v
+    }else if (p2.x >= game.width){ 
+        v = -1*v
+    }
+}
+// Step_03_After 30 seconds, the worst shot to avoid.
+function tShotSuper(p1,p2){
+    let v = 15;
+    let detection = 300
+    if (p2.x <= 0){ 
+        rrvS = -1*rrvS
+    }else if (p2.x >= game.width){ 
+        rrvS = -1*rrvS
+    }
+    else if(circleD(p1,p2)<detection&& p1.x > p2.x ){
+        p2.x += v; 
+        // if(p2.x >= game.width){ v = -1*v}
+    }else if(circleD(p1,p2)<detection && p2.x > p1.x){
+        p2.x -= v;
+        // if(p2.x <= 0){ v = -1*v}
     }
 }
 
@@ -527,7 +587,7 @@ function victory(){
         textTag.style.color = "white"
         square.style.display = "block"
         square.style.removeProperty("background-color")
-    }else if(seconds >= 34|| smile.alive === true){
+    }else if(seconds >= 64 && smile.alive === true){
         square.style.display = "none"
     }
    
@@ -559,6 +619,8 @@ if(text === false)
    { ctx.clearRect(0, 0, game.width, game.height)
     smile.draw();
     purpleIns.launchP()
+    blue.launchZ()
+    tShotSuper(smile,blue) 
     tShot(smile,purpleIns) 
     // text
     
@@ -570,8 +632,9 @@ if(text === false)
     ctx.fillText("Can you dodge it?", (game.width)/2,game.height/2+60);
     ctx.fillText("When you are ready to play,", (game.width)/2,game.height/2+90);
     ctx.fillText("hit ENTER key! ", (game.width)/2,game.height/2+120);
-    ctx.fillText("Just 1 minute and you win! ", (game.width)/2,game.height/2+150);
+    ctx.fillText("If you can survive for 1 min, you win! ", (game.width)/2,game.height/2+150);
     ctx.fillText("Easy, right? ", (game.width)/2,game.height/2+180);
+    ctx.fillText("(This is practice, no hit detection.) ", (game.width)/2,game.height/2+210);
     
 console.log('ins')
   }
@@ -599,16 +662,16 @@ console.log('ins')
     ctx.fillText("After 15 seconds,", (game.width)/2,game.height/2+60);
     ctx.fillText("Zverev is going to shoot ", (game.width)/2,game.height/2+90);
     ctx.fillText("you MAGIC PURPLE Shots!", (game.width)/2,game.height/2+120);
-    ctx.fillText("Be careful those spin shots!.", (game.width)/2,game.height/2+150);
-    ctx.fillText("I'll show you ", (game.width)/2,game.height/2+180);
-    ctx.fillText("the shots for your practice. ", (game.width)/2,game.height/2+210);
+    ctx.fillText("After 45 seconds,you'll see", (game.width)/2,game.height/2+150);
+    ctx.fillText("the WORST BLUE shots. ", (game.width)/2,game.height/2+180);
+    ctx.fillText("Let me show you those. ", (game.width)/2,game.height/2+210);
     }   
   }
 
   // SetTimeout function for a short animation
    texting()
    setTimeout(textingTwo,5000)
-   setTimeout(()=>{text = false},10000)
+   setTimeout(()=>{text = false},12000)
    const insInter = setInterval(instruction,45)
    }
 
