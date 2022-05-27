@@ -361,18 +361,18 @@ function movementHandler(e) {
 
     switch (e.key) {
         case "ArrowUp":
-            smile.y > 0 ? smile.y -= (10+rs): null;
+            smile.y > 0 ? smile.y -= (0+rs): null;
             break
         case "ArrowDown":
-            (smile.y + smile.height) < game.height ? smile.y += (10+rs): null;
+            (smile.y + smile.height) < game.height ? smile.y += (0+rs): null;
             break
         case "ArrowLeft":
-           ( smile.x ) >= -100 ? smile.x -= (10+rs): null;
+           ( smile.x ) >= 0 ? smile.x -= (0+rs): null;
         //    console.log(smile.x)
             break
        
         case "ArrowRight":
-            (smile.x + smile.width ) <= game.width ? smile.x += (10+rs): null;
+            (smile.x + smile.width ) <= game.width ? smile.x += (0+rs): null;
             // console.log(smile.x)
             break
         // case ' '  :
