@@ -60,8 +60,9 @@ const board = document.getElementById('board');
    board.style.display = "none" 
 
 
-   
+//////////////////////////////////////////////////   
 /* ======== create Image Tags & Srcs ========= */
+//////////////////////////////////////////////////
 
   imgP = new Image();
   imgP.src ="Image/smileTwo.png";
@@ -83,8 +84,10 @@ const board = document.getElementById('board');
   ballO.src ="Image/ball orange.png";
   
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////
   /* ========= CSS Animation Preparation // This will be applied to the Starting page ======*/
+///////////////////////////////////////////////////////////////////////////////////////////////
+
   let cellCollection = document.createElement('div');
   cellCollection.setAttribute('id','cellCollection')
   document.body.append(cellCollection);
