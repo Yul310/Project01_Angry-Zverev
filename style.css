@@ -65,7 +65,7 @@ html,body {
     display: block;
     bottom: -500px;   
     animation: opening 2s infinite;
-    /* animation: opening 2s 4; */
+    
 } 
 
 #img0 {
